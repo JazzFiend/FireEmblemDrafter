@@ -28,5 +28,8 @@
     "test:coverage": "jest --collectCoverage",
     "test:mutation": "./node_modules/.bin/stryker run",
     "lint": "./node_modules/.bin/eslint *.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
   }
 }
