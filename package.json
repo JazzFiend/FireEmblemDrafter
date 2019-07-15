@@ -10,7 +10,9 @@
     "node": ">=0.10.3 <0.12"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.0",
     "@babel/core": "^7.4.5",
+    "@babel/node": "^7.5.0",
     "@babel/preset-env": "^7.4.5",
     "@stryker-mutator/core": "^2.0.1",
     "@stryker-mutator/html-reporter": "^2.0.1",
@@ -24,12 +26,17 @@
     "stryker-cli": "^1.0.0"
   },
   "scripts": {
+    "start:cli": "./node_modules/.bin/babel-node --presets @babel/env ./bin/draft",
     "test": "jest",
     "test:coverage": "jest --collectCoverage",
     "test:mutation": "./node_modules/.bin/stryker run",
     "lint": "./node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.14",
+    "readline-sync": "^1.4.9"
+  },
+  "bin": {
+    "draft": "bin/draft"
   }
 }
