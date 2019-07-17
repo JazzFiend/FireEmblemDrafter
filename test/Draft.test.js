@@ -84,13 +84,6 @@ test('Given a list of 34 items, draft a team of 16', () => {
     '5', '12', '19', '26', '32', '4']);
 });
 
-function selectAndVerify(selection) {
-  let newTeamSize = draft.getCurrentTeam().length + 1;
-  draft.select(selection);
-  expect(draft.getCurrentTeam().length).toBe(newTeamSize);
-  expect(draft.getCurrentTeam().includes(selection)).toBeTruthy();
-}
-
 function verifyPickSize(pick, loopIndex) {
   if(loopIndex === 0) {
     expect(pick.length).toBe(6);
@@ -103,4 +96,11 @@ function verifyPickSize(pick, loopIndex) {
   } else if(loopIndex === 15) {
     expect(pick.length).toBe(2);
   }
+}
+
+function selectAndVerify(selection) {
+  let newTeamSize = draft.getCurrentTeam().length + 1;
+  draft.select(selection);
+  expect(draft.getCurrentTeam().length).toBe(newTeamSize);
+  expect(draft.getCurrentTeam().includes(selection)).toBeTruthy();
 }
