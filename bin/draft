@@ -1,2 +1,2 @@
 #!/usr/bin/env babel-node
-require('../')()
+require('../cliEntry.js')()

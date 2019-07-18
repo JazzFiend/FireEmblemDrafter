@@ -62,3 +62,6 @@ typings/
 
 # Stryker Reports
 reports/
+
+# React
+dist/
