@@ -1,6 +1,6 @@
-import Draft from '../src/Draft';
-import RandomElementSelector from '../src/RandomElementSelector';
-import TestRandomNumberGenerator from '../src/TestRandomNumberGenerator';
+import Draft from '../../src/logic/Draft';
+import RandomElementSelector from '../../src/logic/RandomElementSelector';
+import TestRandomNumberGenerator from '../../src/logic/TestRandomNumberGenerator';
 
 let randomizer;
 let draft;
@@ -82,6 +82,26 @@ test('Given a list of 34 items, draft a team of 16', () => {
   expect(draft.getCurrentTeam()).toStrictEqual(
     ['2', '9', '15', '21', '27', '3', '10', '17', '24', '31',
     '5', '12', '19', '26', '32', '4']);
+});
+
+
+test('Able to run a draft multiple times', () => {
+  const roster = ['a', 'b', 'c', 'd'];
+  draft = new Draft(roster, 2, randomizer);
+  draft.generateNextPick();
+  selectAndVerify('d');
+  draft.generateNextPick();
+  selectAndVerify('a');
+  expect(draft.getCurrentTeam().includes('d')).toBeTruthy();
+  expect(draft.isDraftFinished()).toBeTruthy();
+
+  draft = new Draft(roster, 2, randomizer);
+  draft.generateNextPick();
+  selectAndVerify('d');
+  draft.generateNextPick();
+  selectAndVerify('a');
+  expect(draft.getCurrentTeam().includes('d')).toBeTruthy();
+  expect(draft.isDraftFinished()).toBeTruthy();
 });
 
 function verifyPickSize(pick, loopIndex) {

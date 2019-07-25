@@ -14,18 +14,27 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.5.0",
     "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
     "@stryker-mutator/core": "^2.0.1",
     "@stryker-mutator/html-reporter": "^2.0.1",
     "@stryker-mutator/javascript-mutator": "^2.0.1",
     "@stryker-mutator/jest-runner": "^2.0.1",
     "babel-jest": "^24.8.0",
-    "eslint": "^6.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.1.0",
+    "eslint": "5.16.0",
     "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-react": "^7.13.0",
     "jest": "^24.8.0",
-    "stryker-cli": "^1.0.0"
+    "stryker-cli": "^1.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
   },
   "scripts": {
+    "build": "webpack --mode development",
+    "start": "webpack-dev-server --mode development",
     "start:cli": "./node_modules/.bin/babel-node --presets @babel/env ./bin/draft",
     "test": "jest",
     "test:coverage": "jest --collectCoverage",
@@ -34,6 +43,10 @@
   },
   "dependencies": {
     "lodash": "^4.17.14",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.12.8",
     "readline-sync": "^1.4.9"
   },
   "bin": {

@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class Draft {
   constructor(roster, teamSize, randomizer) {
     this._validateInputs(roster, teamSize, randomizer);
-    this.roster = roster;
+    this.roster = roster.slice();
     this.teamSize = teamSize;
     this.randomizer = randomizer;
     this.team = [];
