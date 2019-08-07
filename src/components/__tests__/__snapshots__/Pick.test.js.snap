@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="pick"
+  >
+    Make a Selection
+    <button
+      data-testid="pick-button"
+    >
+      a
+    </button>
+    <button
+      data-testid="pick-button"
+    >
+      b
+    </button>
+    <button
+      data-testid="pick-button"
+    >
+      c
+    </button>
+  </div>
+</DocumentFragment>
+`;
