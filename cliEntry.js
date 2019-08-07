@@ -1,12 +1,14 @@
-import Draft from './src/Draft'
-import RandomNumberGenerator from './src/RandomNumberGenerator';
-import RandomElementSelector from './src/RandomElementSelector';
 import readlineSync from 'readline-sync';
 import _ from 'lodash';
+
+import Draft from './src/logic/Draft'
+import RandomNumberGenerator from './src/logic/RandomNumberGenerator';
+import RandomElementSelector from './src/logic/RandomElementSelector';
 
 const fs = require('fs');
 const util = require('util');
 
+/*eslint-disable no-console */
 module.exports = async () => {
   let roster = await extractInputData(process.argv[2]);
   let team = runDraft(roster);
@@ -42,3 +44,4 @@ function formatRoster(unfilteredRoster) {
   });
   return roster;
 }
+/*eslint-enable no-console */

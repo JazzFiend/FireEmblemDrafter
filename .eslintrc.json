@@ -5,6 +5,7 @@
         "node": true
     },
     "extends": [
+        "airbnb",
         "eslint:recommended",
         "plugin:jest/recommended",
         "plugin:react/recommended"
