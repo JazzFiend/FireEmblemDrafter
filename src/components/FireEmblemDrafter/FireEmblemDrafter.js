@@ -1,40 +1,37 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
-import "./FireEmblemDrafter.css";
+import './FireEmblemDrafter.css';
 import Draft from '../../logic/Draft';
 import RandomNumberGenerator from '../../logic/RandomNumberGenerator';
 import RandomElementSelector from '../../logic/RandomElementSelector';
+import TestRandomNumberGenerator from '../../logic/__mocks__/TestRandomNumberGenerator';
 import { Pick } from "../Pick";
 
-const ROSTER = [
-  'Eirika','Ephraim','Seth','Franz','Gilliam','Vanessa','Moulder','Ross',
-  'Garcia','Neimi','Colm','Artur','Lute','Natasha','Joshua','Forde',
-  'Kyle','Tana','Amelia','Innes','Gerik','Tethys','Marisa','Ewan',
-  'Duessel','Cormag','L\'Arachel','Dozla','Saleh','Rennac','Knoll',
-  'Myrrh','Syrene',
-];
-
-class FireEmblemDrafter extends Component {
+export class FireEmblemDrafter extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pick: Array(6).fill(undefined),
       draftInProgress: false,
       team: Array(0),
-      draft: undefined
+      draft: undefined,
+      roster: props.roster,
+      teamSize: props.teamSize,
+      randomizePicks: props.isRandom,
     }
   }
 
   render() {
     return (
       <div>
-        <button className="start-draft-button" onClick={() => this.startDraft()}>
+        <button className="start-draft-button" data-testid="start-draft-button" onClick={() => this.startDraft()}>
           {this.state.draftInProgress ? 'Restart Draft!' : 'Start Draft!'}
         </button>
         {this.showPick()}
-        <div>
+        <div data-testid='team-list'>
           {this.displayTeam(this.state.team)}
         </div>
       </div>
@@ -42,9 +39,13 @@ class FireEmblemDrafter extends Component {
   }
 
   startDraft() {
-    const TEAM_SIZE = 18;
-    let randomizer = new RandomElementSelector(new RandomNumberGenerator());
-    let draft = new Draft(ROSTER, TEAM_SIZE, randomizer);
+    let draft;
+    if(this.state.randomizePicks) {
+      draft = new Draft(this.state.roster, this.state.teamSize, new RandomElementSelector(new RandomNumberGenerator()));
+    } else {
+      draft = new Draft(this.state.roster, this.state.teamSize, new RandomElementSelector(new TestRandomNumberGenerator()));
+    }
+
     this.setState({
       draftInProgress: true,
       draft: draft,
@@ -109,3 +110,9 @@ class FireEmblemDrafter extends Component {
 }
 
 export default hot(module)(FireEmblemDrafter);
+
+FireEmblemDrafter.propTypes = {
+  roster: PropTypes.arrayOf(PropTypes.string),
+  teamSize: PropTypes.number,
+  isRandom: PropTypes.bool,
+};

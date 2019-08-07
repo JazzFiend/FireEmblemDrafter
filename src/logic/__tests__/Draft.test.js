@@ -1,6 +1,6 @@
-import Draft from '../../src/logic/Draft';
-import RandomElementSelector from '../../src/logic/RandomElementSelector';
-import TestRandomNumberGenerator from '../../src/logic/TestRandomNumberGenerator';
+import Draft from '../Draft';
+import RandomElementSelector from '../RandomElementSelector';
+import TestRandomNumberGenerator from '../__mocks__/TestRandomNumberGenerator';
 
 let randomizer;
 let draft;

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <button
+      class="start-draft-button"
+      data-testid="start-draft-button"
+    >
+      Start Draft!
+    </button>
+    <div />
+    <div
+      data-testid="team-list"
+    />
+  </div>
+</DocumentFragment>
+`;

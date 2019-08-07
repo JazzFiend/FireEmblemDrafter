@@ -1,5 +1,5 @@
-import RandomNumberGenerator from "../../src/logic/RandomNumberGenerator";
-import TestRandomNumberGenerator from '../../src/logic/TestRandomNumberGenerator';
+import RandomNumberGenerator from "../RandomNumberGenerator";
+import TestRandomNumberGenerator from '../__mocks__/TestRandomNumberGenerator';
 
 test('Generate Non-Random Number', () => {
   let number = new RandomNumberGenerator().generateRandomNumber(1, 1);

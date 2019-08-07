@@ -1,5 +1,5 @@
-import RandomElementSelector from '../../src/logic/RandomElementSelector';
-import TestRandomNumberGenerator from '../../src/logic/TestRandomNumberGenerator';
+import RandomElementSelector from '../RandomElementSelector';
+import TestRandomNumberGenerator from '../__mocks__/TestRandomNumberGenerator';
 
 let randomElementSelector;
 
