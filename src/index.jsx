@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import FireEmblemDrafter from "./components/FireEmblemDrafter/FireEmblemDrafter.js";
+import { FireEmblemDrafter } from "./components/FireEmblemDrafter/FireEmblemDrafter";
 
 const ROSTER = [
   'Eirika','Ephraim','Seth','Franz','Gilliam','Vanessa','Moulder','Ross',
@@ -11,4 +11,4 @@ const ROSTER = [
 ];
 const TEAM_SIZE = 18;
 
-ReactDOM.render(<FireEmblemDrafter roster={ ROSTER } teamSize={ TEAM_SIZE } isRandom={ true }/>, document.getElementById("root"));
+ReactDOM.render(<FireEmblemDrafter roster={ROSTER} teamSize={TEAM_SIZE} isRandom />, document.getElementById("root"));

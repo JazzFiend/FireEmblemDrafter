@@ -6,6 +6,7 @@ exports[`renders and matches snapshot 1`] = `
     <button
       class="start-draft-button"
       data-testid="start-draft-button"
+      type="button"
     >
       Start Draft!
     </button>
