@@ -8,16 +8,19 @@ exports[`renders and matches snapshot 1`] = `
     Make a Selection
     <button
       data-testid="pick-button"
+      type="button"
     >
       a
     </button>
     <button
       data-testid="pick-button"
+      type="button"
     >
       b
     </button>
     <button
       data-testid="pick-button"
+      type="button"
     >
       c
     </button>
