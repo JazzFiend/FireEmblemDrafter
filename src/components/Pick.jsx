@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 class Pick extends Component {
   buildButtons(pick, onClick) {
@@ -14,15 +15,20 @@ class Pick extends Component {
   }
 
   render() {
-    let propsCopy = this.props;
+    const { pick, onClick } = this.props;
     return (
       <div data-testid="pick">
-      Make a Selection
-        {this.buildButtons(propsCopy.pick, propsCopy.onClick)}
+        Make a Selection
+        {this.buildButtons(pick, onClick)}
       </div>
     );
   }
 }
+
+Pick.propTypes = {
+  pick: PropTypes.arrayOf(PropTypes.string),
+  onClick: PropTypes.func,
+};
 
 Pick.defaultProps = {
   pick: [],

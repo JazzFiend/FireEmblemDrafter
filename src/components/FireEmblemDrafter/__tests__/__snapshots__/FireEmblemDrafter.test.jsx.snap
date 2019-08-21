@@ -3,13 +3,33 @@
 exports[`renders and matches snapshot 1`] = `
 <DocumentFragment>
   <div>
-    <button
-      class="start-draft-button"
-      data-testid="start-draft-button"
-      type="button"
-    >
-      Start Draft!
-    </button>
+    <div>
+      <div
+        class="dd-wrapper"
+      >
+        <div
+          class="dd-header"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            class="dd-header-title"
+            data-testid="dropdown"
+          >
+            Select a Game
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="start-draft-button"
+        data-testid="start-draft-button"
+        type="button"
+      >
+        Start Draft!
+      </button>
+    </div>
     <div />
     <div
       data-testid="team-list"
