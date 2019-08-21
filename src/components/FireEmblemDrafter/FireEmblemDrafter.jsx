@@ -8,7 +8,32 @@ import Draft from '../../logic/Draft';
 import RandomNumberGenerator from '../../logic/RandomNumberGenerator';
 import RandomElementSelector from '../../logic/RandomElementSelector';
 import TestRandomNumberGenerator from '../../logic/__mocks__/TestRandomNumberGenerator';
+import GameSelector from "../GameSelector";
+import DraftController from "../DraftController";
 import Pick from '../Pick';
+
+//TODO: Put these static values in a file or something
+const gameInfo = [
+  {
+    id: 0,
+    title: 'The Sacred Stones',
+    playableCharacters: ['Eirika', 'Ephraim', 'Seth', 'Franz', 'Gilliam', 'Vanessa', 'Moulder', 'Ross',
+      'Garcia', 'Neimi', 'Colm', 'Artur', 'Lute', 'Natasha', 'Joshua', 'Forde',
+      'Kyle', 'Tana', 'Amelia', 'Innes', 'Gerik', 'Tethys', 'Marisa', 'Ewan',
+      'Duessel', 'Cormag', 'L\'Arachel', 'Dozla', 'Saleh', 'Rennac', 'Knoll',
+      'Myrrh', 'Syrene',],
+  },
+  {
+    id: 1,
+    title: 'The Blazing Blade',
+    playableCharacters: ['Lyn', 'Sain', 'Kent', 'Florina', 'Wil', 'Dorcas', 'Serra', 'Erk', 'Rath',
+      'Matthew', 'Lucius', 'Wallace', 'Eliwood', 'Marcus', 'Lowen', 'Rebecca',
+      'Bartre', 'Hector', 'Oswin', 'Guy', 'Priscilla', 'Raven', 'Canas', 'Dart',
+      'Fiora', 'Legault', 'Ninian', 'Isadora', 'Heath', 'Hawkeye', 'Geitz', 'Pent',
+      'Louise', 'Karel', 'Harken', 'Nino', 'Jaffar', 'Vaida', 'Renault', 'Athos',
+      'Farina', 'Karla',],
+  },
+];
 
 export class FireEmblemDrafter extends Component {
   constructor(props) {
@@ -18,13 +43,22 @@ export class FireEmblemDrafter extends Component {
       draftInProgress: false,
       team: Array(0),
       draft: undefined,
-      roster: props.roster,
+      roster: undefined,
       teamSize: props.teamSize,
       randomizePicks: props.isRandom,
     }
   }
 
-  startDraft(roster, teamSize, randomizePicks) {
+  handleGameSelector(gameId) {
+    this.setState({
+      roster: gameInfo.find(function (element) {
+        return element.id === gameId;
+      }).playableCharacters,
+    })
+  }
+
+  startDraft() {
+    const { roster, teamSize, randomizePicks } = this.state;
     let randomizer = this.createRandomizer(randomizePicks);
     let draft = new Draft(roster, teamSize, randomizer);
     let pick = draft.generateNextPick();
@@ -50,7 +84,7 @@ export class FireEmblemDrafter extends Component {
     return (
       <div>
         {
-          draftInProgress && 
+          draftInProgress &&
           <Pick pick={pick} onClick={index => this.handlePickClick(index, pick, draft)} />
         }
       </div>
@@ -61,7 +95,7 @@ export class FireEmblemDrafter extends Component {
     let newPick;
 
     draft.select(pick[buttonIndex]);
-    if(!draft.isDraftFinished()) {
+    if (!draft.isDraftFinished()) {
       newPick = draft.generateNextPick();
     }
 
@@ -74,22 +108,21 @@ export class FireEmblemDrafter extends Component {
 
   displayTeam(team) {
     let teamDisplayFriendly = "";
-    _.forEach(team, function(value) {
+    _.forEach(team, function (value) {
       teamDisplayFriendly = teamDisplayFriendly + value + '\n';
     });
     return teamDisplayFriendly;
   }
 
   render() {
-    const stateCopy = this.state;
+    const { draftInProgress, pick, draft, team } = this.state;
     return (
       <div>
-        <button type="button" className="start-draft-button" data-testid="start-draft-button" onClick={() => this.startDraft(stateCopy.roster, stateCopy.teamSize, stateCopy.randomizePicks)}>
-          {stateCopy.draftInProgress ? 'Restart Draft!' : 'Start Draft!'}
-        </button>
-        {this.showPick(stateCopy.pick, stateCopy.draftInProgress, stateCopy.draft)}
+        <GameSelector draftInProgress={draftInProgress} gameInfo={gameInfo} handleGameSelector={(gameId) => this.handleGameSelector(gameId)} />
+        <DraftController onClickDraftController={() => this.startDraft()} draftInProgress={draftInProgress} />
+        {this.showPick(pick, draftInProgress, draft)}
         <div data-testid='team-list'>
-          {this.displayTeam(stateCopy.team)}
+          {this.displayTeam(team)}
         </div>
       </div>
     );
@@ -98,13 +131,10 @@ export class FireEmblemDrafter extends Component {
 export default hot(module)(FireEmblemDrafter);
 
 FireEmblemDrafter.propTypes = {
-  roster: PropTypes.arrayOf(PropTypes.string),
-  teamSize: PropTypes.number,
+  teamSize: PropTypes.number.isRequired,
   isRandom: PropTypes.bool,
 };
 
 FireEmblemDrafter.defaultProps = {
-  roster: [],
-  teamSize: 0,
   isRandom: false,
 };
