@@ -24,12 +24,13 @@
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.1.0",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb": "^17.1.1",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.8.0",
     "stryker-cli": "^1.0.0",
     "style-loader": "^0.23.1",
@@ -44,7 +45,8 @@
     "test": "jest --env=jsdom",
     "test:coverage": "jest --env=jsdom --collectCoverage",
     "test:mutation": "./node_modules/.bin/stryker run",
-    "lint": "./node_modules/.bin/eslint ./src --ext ts,tsx,js,jsx"
+    "lint": "./node_modules/.bin/eslint ./src --ext ts,tsx,js,jsx",
+    "lint:fix": "./node_modules/.bin/eslint ./src --ext ts,tsx,js,jsx --fix"
   },
   "dependencies": {
     "lodash": "^4.17.14",
