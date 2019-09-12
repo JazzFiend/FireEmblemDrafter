@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Pick extends Component {
-  buildButtons(pick, onClick) {
-    let buttonArray = Array(0);
+  static buildButtons(pick, onClick) {
+    const buttonArray = Array(0);
     for (let i = 0; i < pick.length; i++) {
       buttonArray.push(
         <button type="button" data-testid="pick-button" onClick={() => onClick(i)} key={i}>
           {pick[i]}
-        </button>
+        </button>,
       );
     }
     return buttonArray;
@@ -19,7 +19,7 @@ class Pick extends Component {
     return (
       <div data-testid="pick">
         Make a Selection
-        {this.buildButtons(pick, onClick)}
+        {Pick.buildButtons(pick, onClick)}
       </div>
     );
   }

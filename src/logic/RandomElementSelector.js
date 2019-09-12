@@ -6,20 +6,18 @@ export default class RandomElementSelector {
   }
 
   pullRandomElements(originalList, numberOfElements) {
-    this._checkInputs(originalList, numberOfElements);
-    let randomList = [];
-    let listToConsider = originalList;
-    for(let i = 0; i < numberOfElements; i++) {
-      let indexToPull = this.randomNumberGenerator.generateRandomNumber(0, originalList.length - 1);
+    RandomElementSelector.checkInputs(originalList, numberOfElements);
+    const randomList = [];
+    const listToConsider = originalList;
+    for (let i = 0; i < numberOfElements; i++) {
+      const indexToPull = this.randomNumberGenerator.generateRandomNumber(0, originalList.length - 1);
       randomList.push(listToConsider[indexToPull]);
-      _.remove(listToConsider, function(element, index) {
-        return index === indexToPull;
-      });
+      _.remove(listToConsider, (element, index) => index === indexToPull);
     }
     return randomList;
   }
 
-  _checkInputs(rootList, numElements) {
+  static checkInputs(rootList, numElements) {
     if (rootList.length === 0) {
       throw new TypeError('Input list is empty.');
     }
