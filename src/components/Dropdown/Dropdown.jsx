@@ -1,27 +1,26 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import './Dropdown.css';
 import PropTypes from 'prop-types';
 
 class Dropdown extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       listOpen: false,
       headerTitle: props.defaultText,
       list: props.dropdownItems,
-    }
+    };
   }
 
   toggleListOpen() {
-    this.setState(prevState => ({
-      listOpen: !prevState.listOpen
-    }))
+    this.setState((prevState) => ({
+      listOpen: !prevState.listOpen,
+    }));
   }
 
   selectItem(id, list) {
     const { onClick } = this.props;
     this.setState({
-      selected: list[id],
       listOpen: false,
       headerTitle: list[id].title,
     });
@@ -29,7 +28,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    const { listOpen, headerTitle, list } = this.state
+    const { listOpen, headerTitle, list } = this.state;
     return (
       <div className="dd-wrapper">
         <div
@@ -56,11 +55,12 @@ class Dropdown extends Component {
                 >
                   {item.title}
                 </li>
-              ))}
+              ),
+            )}
           </ul>
         )}
       </div>
-    )
+    );
   }
 }
 

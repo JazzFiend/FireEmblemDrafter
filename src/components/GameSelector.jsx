@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Dropdown from "./Dropdown/Dropdown";
+import Dropdown from './Dropdown/Dropdown';
 
 class GameSelector extends PureComponent {
   render() {
@@ -14,14 +14,14 @@ class GameSelector extends PureComponent {
         {
           !draftInProgress && (
             <Dropdown
-              defaultText='Select a Game'
+              defaultText="Select a Game"
               dropdownItems={gameInfo}
               onClick={(gameId) => handleGameSelector(gameId)}
             />
           )
         }
       </div>
-    )
+    );
   }
 }
 export default GameSelector;

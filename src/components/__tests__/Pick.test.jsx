@@ -3,7 +3,8 @@ import React from 'react';
 import {
   render,
   fireEvent,
-  cleanup, } from '@testing-library/react';
+  cleanup,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import Pick from '../Pick';
@@ -16,12 +17,12 @@ test('renders and matches snapshot', () => {
 });
 
 test('contains appropriate buttons', () => {
-  const testPick =  ['x', 'y', 'z'];
+  const testPick = ['x', 'y', 'z'];
   const { getAllByTestId } = render(<Pick pick={testPick} onClick={() => {}} />);
-  let pickButtons = getAllByTestId('pick-button');
+  const pickButtons = getAllByTestId('pick-button');
 
   expect(pickButtons.length).toBe(3);
-  _.forEach(pickButtons, function(button, index) {
+  _.forEach(pickButtons, (button, index) => {
     expect(button).toHaveTextContent(testPick[index]);
   });
 });

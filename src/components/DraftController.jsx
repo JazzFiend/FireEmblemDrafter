@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 class DraftController extends PureComponent {
@@ -23,9 +23,9 @@ export default DraftController;
 DraftController.propTypes = {
   onClickDraftController: PropTypes.func,
   draftInProgress: PropTypes.bool,
-}
+};
 
 DraftController.defaultProps = {
   onClickDraftController: () => {},
-  draftInProgress: false
-}
+  draftInProgress: false,
+};

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { hot } from "react-hot-loader";
+import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -8,11 +8,11 @@ import Draft from '../../logic/Draft';
 import RandomNumberGenerator from '../../logic/RandomNumberGenerator';
 import RandomElementSelector from '../../logic/RandomElementSelector';
 import TestRandomNumberGenerator from '../../logic/__mocks__/TestRandomNumberGenerator';
-import GameSelector from "../GameSelector";
-import DraftController from "../DraftController";
+import GameSelector from '../GameSelector';
+import DraftController from '../DraftController';
 import Pick from '../Pick';
 
-//TODO: Put these static values in a file or something
+// TODO: Put these static values in a file or something
 const gameInfo = [
   {
     id: 0,
@@ -21,7 +21,7 @@ const gameInfo = [
       'Garcia', 'Neimi', 'Colm', 'Artur', 'Lute', 'Natasha', 'Joshua', 'Forde',
       'Kyle', 'Tana', 'Amelia', 'Innes', 'Gerik', 'Tethys', 'Marisa', 'Ewan',
       'Duessel', 'Cormag', 'L\'Arachel', 'Dozla', 'Saleh', 'Rennac', 'Knoll',
-      'Myrrh', 'Syrene',],
+      'Myrrh', 'Syrene'],
   },
   {
     id: 1,
@@ -31,11 +31,27 @@ const gameInfo = [
       'Bartre', 'Hector', 'Oswin', 'Guy', 'Priscilla', 'Raven', 'Canas', 'Dart',
       'Fiora', 'Legault', 'Ninian', 'Isadora', 'Heath', 'Hawkeye', 'Geitz', 'Pent',
       'Louise', 'Karel', 'Harken', 'Nino', 'Jaffar', 'Vaida', 'Renault', 'Athos',
-      'Farina', 'Karla',],
+      'Farina', 'Karla'],
   },
 ];
 
 export class FireEmblemDrafter extends Component {
+  static createRandomizer(randomizePicks) {
+    if (randomizePicks) {
+      return new RandomElementSelector(RandomNumberGenerator);
+    }
+    TestRandomNumberGenerator.clearState();
+    return new RandomElementSelector(TestRandomNumberGenerator);
+  }
+
+  static displayTeam(team) {
+    let teamDisplayFriendly = '';
+    _.forEach(team, (value) => {
+      teamDisplayFriendly = `${teamDisplayFriendly + value}\n`;
+    });
+    return teamDisplayFriendly;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,46 +62,35 @@ export class FireEmblemDrafter extends Component {
       roster: undefined,
       teamSize: props.teamSize,
       randomizePicks: props.isRandom,
-    }
+    };
   }
 
   handleGameSelector(gameId) {
     this.setState({
-      roster: gameInfo.find(function (element) {
-        return element.id === gameId;
-      }).playableCharacters,
-    })
+      roster: gameInfo.find((element) => element.id === gameId).playableCharacters,
+    });
   }
 
   startDraft() {
     const { roster, teamSize, randomizePicks } = this.state;
-    let randomizer = this.createRandomizer(randomizePicks);
-    let draft = new Draft(roster, teamSize, randomizer);
-    let pick = draft.generateNextPick();
+    const randomizer = FireEmblemDrafter.createRandomizer(randomizePicks);
+    const draft = new Draft(roster, teamSize, randomizer);
+    const pick = draft.generateNextPick();
 
     this.setState({
       draftInProgress: true,
-      draft: draft,
+      draft,
       team: Array(0),
-      pick: pick,
+      pick,
     });
-  }
-
-  createRandomizer(randomizePicks) {
-    if (randomizePicks) {
-      return new RandomElementSelector(new RandomNumberGenerator());
-    }
-    else {
-      return new RandomElementSelector(new TestRandomNumberGenerator());
-    }
   }
 
   showPick(pick, draftInProgress, draft) {
     return (
       <div>
         {
-          draftInProgress &&
-          <Pick pick={pick} onClick={index => this.handlePickClick(index, pick, draft)} />
+          draftInProgress
+          && <Pick pick={pick} onClick={(index) => this.handlePickClick(index, pick, draft)} />
         }
       </div>
     );
@@ -106,23 +111,21 @@ export class FireEmblemDrafter extends Component {
     });
   }
 
-  displayTeam(team) {
-    let teamDisplayFriendly = "";
-    _.forEach(team, function (value) {
-      teamDisplayFriendly = teamDisplayFriendly + value + '\n';
-    });
-    return teamDisplayFriendly;
-  }
-
   render() {
-    const { draftInProgress, pick, draft, team } = this.state;
+    const {
+      draftInProgress, pick, draft, team,
+    } = this.state;
     return (
       <div>
-        <GameSelector draftInProgress={draftInProgress} gameInfo={gameInfo} handleGameSelector={(gameId) => this.handleGameSelector(gameId)} />
+        <GameSelector
+          draftInProgress={draftInProgress}
+          gameInfo={gameInfo}
+          handleGameSelector={(gameId) => this.handleGameSelector(gameId)}
+        />
         <DraftController onClickDraftController={() => this.startDraft()} draftInProgress={draftInProgress} />
         {this.showPick(pick, draftInProgress, draft)}
-        <div data-testid='team-list'>
-          {this.displayTeam(team)}
+        <div data-testid="team-list">
+          {FireEmblemDrafter.displayTeam(team)}
         </div>
       </div>
     );

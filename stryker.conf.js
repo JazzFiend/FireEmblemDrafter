@@ -1,10 +1,11 @@
-module.exports = function(config) {
+/* eslint-disable func-names */
+module.exports = function (config) {
   config.set({
-    mutator: "javascript",
-    packageManager: "yarn",
-    reporters: ["html", "clear-text", "progress"],
-    testRunner: "jest",
+    mutator: 'javascript',
+    packageManager: 'yarn',
+    reporters: ['html', 'clear-text', 'progress'],
+    testRunner: 'jest',
     transpilers: [],
-    coverageAnalysis: "off"
+    coverageAnalysis: 'off',
   });
 };
