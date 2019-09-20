@@ -36,6 +36,7 @@ class Dropdown extends Component {
           role="listbox"
           tabIndex={0}
           onClick={() => this.toggleListOpen()}
+          /* TODO: Fix up the Key Press stuff on dropdowns */
           onKeyPress={() => this.toggleListOpen()}
         >
           <div className="dd-header-title" data-testid="dropdown">{headerTitle}</div>

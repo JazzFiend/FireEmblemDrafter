@@ -12,29 +12,6 @@ import GameSelector from '../GameSelector';
 import DraftController from '../DraftController';
 import Pick from '../Pick';
 
-// TODO: Put these static values in a file or something
-const gameInfo = [
-  {
-    id: 0,
-    title: 'The Sacred Stones',
-    playableCharacters: ['Eirika', 'Ephraim', 'Seth', 'Franz', 'Gilliam', 'Vanessa', 'Moulder', 'Ross',
-      'Garcia', 'Neimi', 'Colm', 'Artur', 'Lute', 'Natasha', 'Joshua', 'Forde',
-      'Kyle', 'Tana', 'Amelia', 'Innes', 'Gerik', 'Tethys', 'Marisa', 'Ewan',
-      'Duessel', 'Cormag', 'L\'Arachel', 'Dozla', 'Saleh', 'Rennac', 'Knoll',
-      'Myrrh', 'Syrene'],
-  },
-  {
-    id: 1,
-    title: 'The Blazing Blade',
-    playableCharacters: ['Lyn', 'Sain', 'Kent', 'Florina', 'Wil', 'Dorcas', 'Serra', 'Erk', 'Rath',
-      'Matthew', 'Lucius', 'Wallace', 'Eliwood', 'Marcus', 'Lowen', 'Rebecca',
-      'Bartre', 'Hector', 'Oswin', 'Guy', 'Priscilla', 'Raven', 'Canas', 'Dart',
-      'Fiora', 'Legault', 'Ninian', 'Isadora', 'Heath', 'Hawkeye', 'Geitz', 'Pent',
-      'Louise', 'Karel', 'Harken', 'Nino', 'Jaffar', 'Vaida', 'Renault', 'Athos',
-      'Farina', 'Karla'],
-  },
-];
-
 export class FireEmblemDrafter extends Component {
   static createRandomizer(randomizePicks) {
     if (randomizePicks) {
@@ -62,10 +39,12 @@ export class FireEmblemDrafter extends Component {
       roster: undefined,
       teamSize: props.teamSize,
       randomizePicks: props.isRandom,
+      gameInfo: props.gameInfo,
     };
   }
 
   handleGameSelector(gameId) {
+    const { gameInfo } = this.state;
     this.setState({
       roster: gameInfo.find((element) => element.id === gameId).playableCharacters,
     });
@@ -113,8 +92,9 @@ export class FireEmblemDrafter extends Component {
 
   render() {
     const {
-      draftInProgress, pick, draft, team,
+      draftInProgress, pick, draft, team, gameInfo,
     } = this.state;
+
     return (
       <div>
         <GameSelector
@@ -136,6 +116,11 @@ export default hot(module)(FireEmblemDrafter);
 FireEmblemDrafter.propTypes = {
   teamSize: PropTypes.number.isRequired,
   isRandom: PropTypes.bool,
+  gameInfo: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    playableCharacters: PropTypes.arrayOf(PropTypes.string),
+  })).isRequired,
 };
 
 FireEmblemDrafter.defaultProps = {

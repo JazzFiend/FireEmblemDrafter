@@ -6,18 +6,32 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { FireEmblemDrafter } from '../FireEmblemDrafter';
+import gameInfo from '../../../reference/gameInfo';
 
 afterEach(cleanup);
 
 // FIXME: Snapshots are getting to be more trouble then they are worth. Figure out best practices.
 test('renders and matches snapshot', () => {
-  const { asFragment } = render(<FireEmblemDrafter roster={['x', 'y', 'z']} teamSize={2} isRandom={false} />);
+  const { asFragment } = render(
+    <FireEmblemDrafter
+      roster={['x', 'y', 'z']}
+      teamSize={2}
+      isRandom={false}
+      gameInfo={gameInfo}
+    />,
+  );
   expect(asFragment()).toMatchSnapshot();
 });
 
 // TODO: This file is starting to mix unit tests and integration tests. Should probably seperate into two test types.
 test('draft should start when button is clicked', () => {
-  const { getByTestId, getAllByTestId } = render(<FireEmblemDrafter teamSize={1} isRandom={false} />);
+  const { getByTestId, getAllByTestId } = render(
+    <FireEmblemDrafter
+      teamSize={1}
+      isRandom={false}
+      gameInfo={gameInfo}
+    />,
+  );
   fireEvent.click(getByTestId('dropdown'));
   const dropdownItems = getAllByTestId('dropdown-item');
   fireEvent.click(dropdownItems[0]);
@@ -27,7 +41,13 @@ test('draft should start when button is clicked', () => {
 });
 
 test('should add to team when pick is selected', () => {
-  const { getByTestId, getAllByTestId } = render(<FireEmblemDrafter teamSize={1} isRandom={false} />);
+  const { getByTestId, getAllByTestId } = render(
+    <FireEmblemDrafter
+      teamSize={1}
+      isRandom={false}
+      gameInfo={gameInfo}
+    />,
+  );
   fireEvent.click(getByTestId('dropdown'));
   const dropdownItems = getAllByTestId('dropdown-item');
   fireEvent.click(dropdownItems[0]);
@@ -38,7 +58,13 @@ test('should add to team when pick is selected', () => {
 });
 
 test('should complete draft when draft is over', () => {
-  const { getByTestId, getAllByTestId } = render(<FireEmblemDrafter teamSize={2} isRandom={false} />);
+  const { getByTestId, getAllByTestId } = render(
+    <FireEmblemDrafter
+      teamSize={2}
+      isRandom={false}
+      gameInfo={gameInfo}
+    />,
+  );
   fireEvent.click(getByTestId('dropdown'));
   const dropdownItems = getAllByTestId('dropdown-item');
   fireEvent.click(dropdownItems[0]);
