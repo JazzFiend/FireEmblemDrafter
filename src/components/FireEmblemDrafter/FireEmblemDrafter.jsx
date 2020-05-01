@@ -32,7 +32,7 @@ export class FireEmblemDrafter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pick: Array(6).fill(undefined),
+      pick: Array(6),
       draftInProgress: false,
       team: Array(0),
       draft: undefined,
