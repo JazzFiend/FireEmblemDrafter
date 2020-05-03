@@ -4,18 +4,23 @@ import PropTypes from 'prop-types';
 import Dropdown from './Dropdown/Dropdown';
 
 class GameSelector extends PureComponent {
+  static extractGameTitles(gameInfo) {
+    return gameInfo.map((item) => ({
+      id: item.id,
+      title: item.title,
+    }));
+  }
+
   render() {
-    // TODO: We are passing in all the gameInfo. Should we just ask for
-    // what we need? Should we ask for gameinfo and pull out what we need?
-    // Should we just leave it as is?
     const { draftInProgress, gameInfo, handleGameSelector } = this.props;
+    const gameTitleList = GameSelector.extractGameTitles(gameInfo);
     return (
       <div>
         {
           !draftInProgress && (
             <Dropdown
               defaultText="Select a Game"
-              dropdownItems={gameInfo}
+              dropdownItems={gameTitleList}
               onClick={(gameId) => handleGameSelector(gameId)}
             />
           )
@@ -31,7 +36,6 @@ GameSelector.propTypes = {
   gameInfo: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
-    playableCharacters: PropTypes.arrayOf(PropTypes.string),
   })).isRequired,
   handleGameSelector: PropTypes.func,
 };
