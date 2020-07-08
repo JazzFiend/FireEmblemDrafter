@@ -11,6 +11,7 @@ import TestRandomNumberGenerator from '../../logic/__mocks__/TestRandomNumberGen
 import GameSelector from '../GameSelector';
 import DraftController from '../DraftController';
 import Pick from '../Pick';
+import RosterOptions from '../../logic/helpers/RosterOptions';
 
 export class FireEmblemDrafter extends Component {
   static createRandomizer(randomizePicks) {
@@ -52,8 +53,9 @@ export class FireEmblemDrafter extends Component {
 
   startDraft() {
     const { roster, teamSize, randomizePicks } = this.state;
+    const rosterOptions = new RosterOptions(roster, [], []);
     const randomizer = FireEmblemDrafter.createRandomizer(randomizePicks);
-    const draft = new Draft(roster, teamSize, randomizer);
+    const draft = new Draft(rosterOptions, teamSize, randomizer);
     const pick = draft.generateNextPick();
 
     this.setState({
