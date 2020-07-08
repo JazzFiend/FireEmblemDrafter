@@ -1,21 +1,21 @@
 import _ from 'lodash';
 
 export default class Draft {
-  constructor(roster, teamSize, randomizer) {
-    Draft.validateInputs(roster, teamSize, randomizer);
-    this.roster = roster.slice();
+  constructor(rosterOptions, teamSize, randomizer) {
+    Draft._validateInputs(rosterOptions, teamSize, randomizer);
+    this.roster = rosterOptions.roster.slice();
     this.teamSize = teamSize;
     this.randomizer = randomizer;
-    this.team = [];
+    this.team = rosterOptions.required.slice();
     this.draftComplete = false;
   }
 
-  static validateInputs(roster, teamSize, randomizer) {
-    if (!roster.length) {
-      throw new TypeError('Roster is empty.');
+  static _validateInputs(rosterOptions, teamSize, randomizer) {
+    if (teamSize > rosterOptions.rosterCount) {
+      throw new RangeError('Team size larger than roster count.');
     }
-    if (teamSize > roster.length) {
-      throw new RangeError('Team size larger than roster.');
+    if (teamSize === 0) {
+      throw new RangeError('Invalid team size.');
     }
     if (!randomizer) {
       throw new TypeError('Must define a randomizer');

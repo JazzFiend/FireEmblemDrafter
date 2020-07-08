@@ -1,5 +1,6 @@
 import Draft from '../Draft';
 import RandomElementSelector from '../RandomElementSelector';
+import RosterOptions from '../helpers/RosterOptions';
 import TestRandomNumberGenerator from '../__mocks__/TestRandomNumberGenerator';
 
 let randomizer;
@@ -30,26 +31,30 @@ function verifyPickSize(pick, loopIndex) {
   }
 }
 
-test('Empty roster should error', () => {
+test('Team larger than roster should error', () => {
+  const rosterOptions = new RosterOptions(['3']);
   expect(() => {
-    new Draft([], 1, randomizer);
-  }).toThrow(TypeError);
+    new Draft(rosterOptions, 2, randomizer);
+  }).toThrow(RangeError);
 });
 
-test('Team larger than roster should error', () => {
+test('Team Size of zero should error', () => {
+  const rosterOptions = new RosterOptions(['3']);
   expect(() => {
-    new Draft(['3'], 2, randomizer);
+    new Draft(rosterOptions, 0, randomizer);
   }).toThrow(RangeError);
 });
 
 test('Null randomizer should error', () => {
+  const rosterOptions = new RosterOptions(['3', '2', '1']);
   expect(() => {
-    new Draft(['3', '2', '1'], 2);
+    new Draft(rosterOptions, 2);
   }).toThrow(TypeError);
 });
 
 test('Given a roster of 1, draft a team of 1', () => {
-  draft = new Draft(['1'], 1, randomizer);
+  const rosterOptions = new RosterOptions(['1']);
+  draft = new Draft(rosterOptions, 1, randomizer);
   const pick = draft.generateNextPick();
   expect(pick.length).toBe(1);
   expect(pick.includes('1')).toBeTruthy();
@@ -58,7 +63,8 @@ test('Given a roster of 1, draft a team of 1', () => {
 });
 
 test('Selecting an invalid value should throw', () => {
-  draft = new Draft(['1'], 1, randomizer);
+  const rosterOptions = new RosterOptions(['1']);
+  draft = new Draft(rosterOptions, 1, randomizer);
   draft.generateNextPick();
   expect(() => {
     draft.select('f');
@@ -66,33 +72,59 @@ test('Selecting an invalid value should throw', () => {
 });
 
 test('Given a roster of 2, draft a team of 1', () => {
-  draft = new Draft(['a', 'b'], 1, randomizer);
+  const rosterOptions = new RosterOptions(['a', 'b']);
+  draft = new Draft(rosterOptions, 1, randomizer);
   draft.generateNextPick();
   selectAndVerify('b');
   expect(draft.isDraftFinished()).toBeTruthy();
 });
 
 test('Given a roster of 4, draft a team of 2', () => {
-  draft = new Draft(['a', 'b', 'c', 'd'], 2, randomizer);
+  const rosterOptions = new RosterOptions(['a', 'b', 'c', 'd']);
+  draft = new Draft(rosterOptions, 2, randomizer);
   draft.generateNextPick();
   selectAndVerify('d');
   expect(draft.isDraftFinished()).toBeFalsy();
 
   draft.generateNextPick();
   selectAndVerify('a');
+  expect(draft.getCurrentTeam().includes('a')).toBeTruthy();
+  expect(draft.isDraftFinished()).toBeTruthy();
+});
+
+test('Given a roster of 4 and 1 restricted value, draft a team of 2', () => {
+  const rosterOptions = new RosterOptions(['a', 'b', 'c', 'd'], ['a']);
+  draft = new Draft(rosterOptions, 2, randomizer);
+  const pick = draft.generateNextPick();
+  expect(pick.includes('a')).toBeFalsy();
+
+  selectAndVerify('d');
+  expect(draft.isDraftFinished()).toBeFalsy();
+
+  draft.generateNextPick();
+  selectAndVerify('b');
+  expect(draft.getCurrentTeam().includes('b')).toBeTruthy();
+  expect(draft.isDraftFinished()).toBeTruthy();
+});
+
+test('Given a roster of 4 and 1 required value, draft a team of 2', () => {
+  const rosterOptions = new RosterOptions(['a', 'b', 'c', 'd'], [], ['a']);
+  draft = new Draft(rosterOptions, 2, randomizer);
+  expect(draft.getCurrentTeam().includes('a')).toBeTruthy();
+  selectAndVerify('d');
   expect(draft.getCurrentTeam().includes('d')).toBeTruthy();
   expect(draft.isDraftFinished()).toBeTruthy();
 });
 
 test('Given a list of 34 items, draft a team of 16', () => {
   const teamSize = 16;
-  draft = new Draft(['1', '2', '3', '4', '5',
-    '6', '7', '8', '9', '10',
-    '11', '12', '13', '14', '15',
-    '16', '17', '18', '19', '20',
-    '21', '22', '23', '24', '25',
-    '26', '27', '28', '29', '30',
-    '31', '32', '33', '34'], teamSize, randomizer);
+  const rosterOptions = new RosterOptions(
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+      '31', '32', '33', '34'],
+  );
+  draft = new Draft(rosterOptions, teamSize, randomizer);
 
   for (let i = 0; i < teamSize; i++) {
     const pick = draft.generateNextPick();
@@ -107,8 +139,8 @@ test('Given a list of 34 items, draft a team of 16', () => {
 });
 
 test('Able to run a draft multiple times', () => {
-  const roster = ['a', 'b', 'c', 'd'];
-  draft = new Draft(roster, 2, randomizer);
+  const rosterOptions = new RosterOptions(['a', 'b', 'c', 'd']);
+  draft = new Draft(rosterOptions, 2, randomizer);
   draft.generateNextPick();
   selectAndVerify('d');
   draft.generateNextPick();
@@ -116,7 +148,7 @@ test('Able to run a draft multiple times', () => {
   expect(draft.getCurrentTeam().includes('d')).toBeTruthy();
   expect(draft.isDraftFinished()).toBeTruthy();
 
-  draft = new Draft(roster, 2, randomizer);
+  draft = new Draft(rosterOptions, 2, randomizer);
   draft.generateNextPick();
   selectAndVerify('d');
   draft.generateNextPick();
