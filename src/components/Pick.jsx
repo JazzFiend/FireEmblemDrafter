@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class Pick extends Component {
-  static buildButtons(pick, onClick) {
+class Pick extends PureComponent {
+  buildButtons() {
+    const { pick, onClick } = this.props;
     const buttonArray = Array(0);
+
     for (let i = 0; i < pick.length; i++) {
       buttonArray.push(
         <button type="button" data-testid="pick-button" onClick={() => onClick(i)} key={i}>
@@ -15,11 +17,10 @@ class Pick extends Component {
   }
 
   render() {
-    const { pick, onClick } = this.props;
     return (
       <div data-testid="pick">
         Make a Selection
-        {Pick.buildButtons(pick, onClick)}
+        {this.buildButtons()}
       </div>
     );
   }

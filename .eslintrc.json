@@ -28,6 +28,7 @@
     "rules": {
         "max-len": ["error", {"code": 120}],
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "react/jsx-boolean-value": 0
     }
 }

@@ -14,7 +14,6 @@ afterEach(cleanup);
 test('renders and matches snapshot', () => {
   const { asFragment } = render(
     <FireEmblemDrafter
-      roster={['x', 'y', 'z']}
       teamSize={2}
       isRandom={false}
       gameInfo={gameInfo}

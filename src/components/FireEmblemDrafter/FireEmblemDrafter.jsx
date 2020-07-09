@@ -1,46 +1,22 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import './FireEmblemDrafter.css';
-import Draft from '../../logic/Draft';
-import RandomNumberGenerator from '../../logic/RandomNumberGenerator';
-import RandomElementSelector from '../../logic/RandomElementSelector';
-import TestRandomNumberGenerator from '../../logic/__mocks__/TestRandomNumberGenerator';
 import GameSelector from '../GameSelector';
 import DraftController from '../DraftController';
-import Pick from '../Pick';
-import RosterOptions from '../../logic/helpers/RosterOptions';
+import RosterOptionsController from '../RosterOptionsController';
 
 export class FireEmblemDrafter extends Component {
-  static createRandomizer(randomizePicks) {
-    if (randomizePicks) {
-      return new RandomElementSelector(RandomNumberGenerator);
-    }
-    TestRandomNumberGenerator.clearState();
-    return new RandomElementSelector(TestRandomNumberGenerator);
-  }
-
-  static displayTeam(team) {
-    let teamDisplayFriendly = '';
-    _.forEach(team, (value) => {
-      teamDisplayFriendly = `${teamDisplayFriendly + value}\n`;
-    });
-    return teamDisplayFriendly;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
-      pick: Array(6),
       draftInProgress: false,
-      team: Array(0),
-      draft: undefined,
       roster: undefined,
       teamSize: props.teamSize,
       randomizePicks: props.isRandom,
       gameInfo: props.gameInfo,
+      restrictedCharacters: Array(0),
     };
   }
 
@@ -51,50 +27,38 @@ export class FireEmblemDrafter extends Component {
     });
   }
 
-  startDraft() {
-    const { roster, teamSize, randomizePicks } = this.state;
-    const rosterOptions = new RosterOptions(roster, [], []);
-    const randomizer = FireEmblemDrafter.createRandomizer(randomizePicks);
-    const draft = new Draft(rosterOptions, teamSize, randomizer);
-    const pick = draft.generateNextPick();
-
+  handleRestrictedUnitSelector(character) {
+    const { restrictedCharacters } = this.state;
+    restrictedCharacters.push(character);
     this.setState({
-      draftInProgress: true,
-      draft,
-      team: Array(0),
-      pick,
+      restrictedCharacters,
     });
   }
 
-  showPick(pick, draftInProgress, draft) {
+  showRosterController() {
+    const { roster, restrictedCharacters, draftInProgress } = this.state;
+
     return (
       <div>
-        {
-          draftInProgress
-          && <Pick pick={pick} onClick={(index) => this.handlePickClick(index, pick, draft)} />
-        }
+        <RosterOptionsController
+          restrictedCharacters={restrictedCharacters}
+          allCharacters={roster}
+          handleRestrictedUnitSelector={(character) => this.handleRestrictedUnitSelector(character)}
+          draftInProgress={draftInProgress}
+        />
       </div>
     );
   }
 
-  handlePickClick(buttonIndex, pick, draft) {
-    let newPick;
-
-    draft.select(pick[buttonIndex]);
-    if (!draft.isDraftFinished()) {
-      newPick = draft.generateNextPick();
-    }
-
+  updateDraftProgress(draftState) {
     this.setState({
-      draftInProgress: !(draft.isDraftFinished()),
-      pick: newPick,
-      team: draft.getCurrentTeam(),
+      draftInProgress: draftState,
     });
   }
 
   render() {
     const {
-      draftInProgress, pick, draft, team, gameInfo,
+      draftInProgress, gameInfo, roster, restrictedCharacters, teamSize, randomizePicks,
     } = this.state;
 
     return (
@@ -104,11 +68,15 @@ export class FireEmblemDrafter extends Component {
           gameInfo={gameInfo}
           handleGameSelector={(gameId) => this.handleGameSelector(gameId)}
         />
-        <DraftController onClickDraftController={() => this.startDraft()} draftInProgress={draftInProgress} />
-        {this.showPick(pick, draftInProgress, draft)}
-        <div data-testid="team-list">
-          {FireEmblemDrafter.displayTeam(team)}
-        </div>
+        {this.showRosterController()}
+        <DraftController
+          draftInProgress={draftInProgress}
+          handleDraftProgress={(draftState) => this.updateDraftProgress(draftState)}
+          roster={roster}
+          restrictedCharacters={restrictedCharacters}
+          teamSize={teamSize}
+          randomizePicks={randomizePicks}
+        />
       </div>
     );
   }

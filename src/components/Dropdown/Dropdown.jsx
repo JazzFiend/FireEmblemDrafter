@@ -7,8 +7,8 @@ class Dropdown extends Component {
     super(props);
     this.state = {
       listOpen: false,
+      defaultText: props.defaultText,
       headerTitle: props.defaultText,
-      list: props.dropdownItems,
     };
   }
 
@@ -18,17 +18,47 @@ class Dropdown extends Component {
     }));
   }
 
+  showOpenList() {
+    const { dropdownItems } = this.props;
+    const { listOpen, headerTitle } = this.state;
+
+    return (
+      listOpen && (
+        <ul className="dd-list">
+          {dropdownItems.map(
+            (item) => (
+              <li
+                data-testid="dropdown-item"
+                className="dd-list-item"
+                key={item.title}
+                role="option"
+                aria-selected={item.title === headerTitle}
+                onClick={() => this.selectItem(item.id, dropdownItems)}
+                onKeyPress={() => this.selectItem(item.id, dropdownItems)}
+              >
+                {item.title}
+              </li>
+            ),
+          )}
+        </ul>
+      )
+    );
+  }
+
   selectItem(id, list) {
-    const { onClick } = this.props;
+    const { onClick, restoreDefaultOnClick } = this.props;
+    const { defaultText } = this.state;
+    const newTitle = (restoreDefaultOnClick) ? defaultText : list[id].title;
+
     this.setState({
       listOpen: false,
-      headerTitle: list[id].title,
+      headerTitle: newTitle,
     });
     onClick(id);
   }
 
   render() {
-    const { listOpen, headerTitle, list } = this.state;
+    const { headerTitle } = this.state;
     return (
       <div className="dd-wrapper">
         <div
@@ -41,40 +71,23 @@ class Dropdown extends Component {
         >
           <div className="dd-header-title" data-testid="dropdown">{headerTitle}</div>
         </div>
-        {listOpen && (
-          <ul className="dd-list">
-            {list.map(
-              (item) => (
-                <li
-                  data-testid="dropdown-item"
-                  className="dd-list-item"
-                  key={item.title}
-                  role="option"
-                  aria-selected={item.title === headerTitle}
-                  onClick={() => this.selectItem(item.id, list)}
-                  onKeyPress={() => this.selectItem(item.id, list)}
-                >
-                  {item.title}
-                </li>
-              ),
-            )}
-          </ul>
-        )}
+        {this.showOpenList()}
       </div>
     );
   }
 }
 
 Dropdown.propTypes = {
-  defaultText: PropTypes.string,
+  defaultText: PropTypes.string.isRequired,
   dropdownItems: PropTypes.arrayOf(PropTypes.object),
   onClick: PropTypes.func,
+  restoreDefaultOnClick: PropTypes.bool,
 };
 
 Dropdown.defaultProps = {
-  defaultText: 'default text',
   dropdownItems: [],
   onClick: () => {},
+  restoreDefaultOnClick: true,
 };
 
 export default Dropdown;
