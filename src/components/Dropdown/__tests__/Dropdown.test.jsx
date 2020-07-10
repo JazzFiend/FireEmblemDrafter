@@ -51,6 +51,7 @@ test('clicking item in dropdown selects the item', () => {
       defaultText="Testing"
       dropdownItems={testData}
       onClick={(i) => onClick(i)}
+      restoreDefaultOnClick={false}
     />,
   );
 

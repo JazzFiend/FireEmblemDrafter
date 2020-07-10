@@ -22,6 +22,16 @@ exports[`renders and matches snapshot 1`] = `
       </div>
     </div>
     <div>
+      <div>
+        <div
+          data-testid="restricted-drop-down"
+        />
+        <div
+          data-testid="restricted-list"
+        />
+      </div>
+    </div>
+    <div>
       <button
         class="start-draft-button"
         data-testid="start-draft-button"
@@ -29,11 +39,11 @@ exports[`renders and matches snapshot 1`] = `
       >
         Start Draft!
       </button>
+      <div />
+      <div
+        data-testid="team-list"
+      />
     </div>
-    <div />
-    <div
-      data-testid="team-list"
-    />
   </div>
 </DocumentFragment>
 `;
