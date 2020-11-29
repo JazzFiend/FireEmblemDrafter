@@ -17,6 +17,7 @@ export class FireEmblemDrafter extends Component {
       randomizePicks: props.isRandom,
       gameInfo: props.gameInfo,
       restrictedCharacters: Array(0),
+      requiredCharacters: Array(0),
     };
   }
 
@@ -35,15 +36,31 @@ export class FireEmblemDrafter extends Component {
     });
   }
 
+  // TODO: See the TODO statement in RosterOptionsController.
+  handleRequiredUnitSelector(character) {
+    const { requiredCharacters } = this.state;
+    requiredCharacters.push(character);
+    this.setState({
+      requiredCharacters,
+    });
+  }
+
   showRosterController() {
-    const { roster, restrictedCharacters, draftInProgress } = this.state;
+    const {
+      roster,
+      restrictedCharacters,
+      requiredCharacters,
+      draftInProgress,
+    } = this.state;
 
     return (
       <div>
         <RosterOptionsController
           restrictedCharacters={restrictedCharacters}
+          requiredCharacters={requiredCharacters}
           allCharacters={roster}
           handleRestrictedUnitSelector={(character) => this.handleRestrictedUnitSelector(character)}
+          handleRequiredUnitSelector={(character) => this.handleRequiredUnitSelector(character)}
           draftInProgress={draftInProgress}
         />
       </div>
@@ -58,7 +75,7 @@ export class FireEmblemDrafter extends Component {
 
   render() {
     const {
-      draftInProgress, gameInfo, roster, restrictedCharacters, teamSize, randomizePicks,
+      draftInProgress, gameInfo, roster, restrictedCharacters, requiredCharacters, teamSize, randomizePicks,
     } = this.state;
 
     return (
@@ -74,6 +91,7 @@ export class FireEmblemDrafter extends Component {
           handleDraftProgress={(draftState) => this.updateDraftProgress(draftState)}
           roster={roster}
           restrictedCharacters={restrictedCharacters}
+          requiredCharacters={requiredCharacters}
           teamSize={teamSize}
           randomizePicks={randomizePicks}
         />

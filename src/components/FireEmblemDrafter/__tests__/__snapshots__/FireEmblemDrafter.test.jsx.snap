@@ -24,6 +24,12 @@ exports[`renders and matches snapshot 1`] = `
     <div>
       <div>
         <div
+          data-testid="required-drop-down"
+        />
+        <div
+          data-testid="required-list"
+        />
+        <div
           data-testid="restricted-drop-down"
         />
         <div

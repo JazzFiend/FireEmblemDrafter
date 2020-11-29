@@ -75,17 +75,18 @@ class DraftController extends Component {
     const {
       roster,
       restrictedCharacters,
+      requiredCharacters,
       teamSize,
       randomizePicks,
     } = this.props;
-    const rosterOptions = new RosterOptions(roster, restrictedCharacters, []);
+    const rosterOptions = new RosterOptions(roster, restrictedCharacters, requiredCharacters);
     const randomizer = DraftController.createRandomizer(randomizePicks);
     const draft = new Draft(rosterOptions, teamSize, randomizer);
     const pick = draft.generateNextPick();
 
     this.setState({
       draft,
-      team: Array(0),
+      team: draft.getCurrentTeam(),
       pick,
     });
   }
@@ -120,6 +121,7 @@ DraftController.propTypes = {
   handleDraftProgress: PropTypes.func,
   roster: PropTypes.arrayOf(PropTypes.string),
   restrictedCharacters: PropTypes.arrayOf(PropTypes.string),
+  requiredCharacters: PropTypes.arrayOf(PropTypes.string),
   teamSize: PropTypes.number.isRequired,
   randomizePicks: PropTypes.bool,
 };
@@ -128,6 +130,7 @@ DraftController.defaultProps = {
   handleDraftProgress: () => {},
   roster: [],
   restrictedCharacters: [],
+  requiredCharacters: [],
   randomizePicks: true,
 };
 

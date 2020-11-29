@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class RosterOptions {
   constructor(roster, restricted, required) {
     RosterOptions._validateInputs(roster, restricted, required);
-    this.roster = RosterOptions._setupRoster(roster, restricted);
+    this.roster = RosterOptions._setupRoster(roster, restricted,);
     this.required = RosterOptions._parseRequired(roster, required);
     this.rosterCount = this.roster.length - this.required.length;
   }
@@ -24,11 +24,16 @@ export default class RosterOptions {
     });
   }
 
-  static _setupRoster(roster, restricted) {
+  static _setupRoster(roster, restricted, required) {
     let officialRoster = roster.slice();
     if (restricted !== undefined) {
       officialRoster = officialRoster.filter(
         (entry) => !restricted.includes(entry),
+      );
+    }
+    if (required !== undefined) {
+      officialRoster = officialRoster.filter(
+        (entry) => !required.includes(entry),
       );
     }
     return officialRoster;
