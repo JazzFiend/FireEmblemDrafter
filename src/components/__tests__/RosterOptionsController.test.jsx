@@ -7,6 +7,36 @@ import '@testing-library/jest-dom/extend-expect';
 
 import RosterOptionsController from '../RosterOptionsController';
 
+test('should render nothing when draft has not started false and no characters are loaded', () => {
+  const { asFragment } = render(
+    <RosterOptionsController
+      restrictedCharacters={[]}
+      requiredCharacters={[]}
+      allCharacters={[]}
+      handleRestrictedUnitSelector={jest.fn()}
+      handleRequiredUnitSelector={jest.fn()}
+      draftInProgress={false}
+    />,
+  );
+  expect(asFragment()).toMatchSnapshot();
+});
+
+test('should render unit dropdowns when draft has not started false and characters are loaded', () => {
+  const { asFragment } = render(
+    <RosterOptionsController
+      restrictedCharacters={[]}
+      requiredCharacters={[]}
+      allCharacters={['u', 'v', 'w', 'x', 'y', 'z']}
+      handleRestrictedUnitSelector={jest.fn()}
+      handleRequiredUnitSelector={jest.fn()}
+      draftInProgress={false}
+    />,
+  );
+  expect(asFragment()).toMatchSnapshot();
+});
+
+// TODO: I think that all of these tests could be replaced by snapshot tests. But I want to try to simplify the
+// Dropdown Component first.
 test('should not render when a set of characters is not loaded', () => {
   const { getByTestId } = render(
     <RosterOptionsController

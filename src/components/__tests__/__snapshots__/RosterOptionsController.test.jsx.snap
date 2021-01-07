@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render nothing when draft has not started false and no characters are loaded 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      data-testid="required-drop-down"
+    />
+    <div
+      data-testid="required-list"
+    />
+    <div
+      data-testid="restricted-drop-down"
+    />
+    <div
+      data-testid="restricted-list"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`should render unit dropdowns when draft has not started false and characters are loaded 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      data-testid="required-drop-down"
+    >
+      <div
+        class="dd-wrapper"
+      >
+        <div
+          class="dd-header"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            class="dd-header-title"
+            data-testid="dropdown"
+          >
+            Add Required...
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-testid="required-list"
+    />
+    <div
+      data-testid="restricted-drop-down"
+    >
+      <div
+        class="dd-wrapper"
+      >
+        <div
+          class="dd-header"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            class="dd-header-title"
+            data-testid="dropdown"
+          >
+            Add Restricted...
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-testid="restricted-list"
+    />
+  </div>
+</DocumentFragment>
+`;

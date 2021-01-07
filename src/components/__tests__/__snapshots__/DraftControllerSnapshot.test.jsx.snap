@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders default Draft Controller when draft hasn't started 1`] = `
+<DocumentFragment>
+  <div>
+    <button
+      class="start-draft-button"
+      data-testid="start-draft-button"
+      type="button"
+    >
+      Start Draft!
+    </button>
+    <div />
+    <div
+      data-testid="team-list"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders default Draft Controller when draft is in progress 1`] = `
+<DocumentFragment>
+  <div>
+    <button
+      class="start-draft-button"
+      data-testid="start-draft-button"
+      type="button"
+    >
+      Restart Draft!
+    </button>
+    <div>
+      Pick
+    </div>
+    <div
+      data-testid="team-list"
+    />
+  </div>
+</DocumentFragment>
+`;

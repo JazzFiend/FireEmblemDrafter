@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    GameSelector
+    <div>
+      <div>
+        <div
+          data-testid="required-drop-down"
+        />
+        <div
+          data-testid="required-list"
+        />
+        <div
+          data-testid="restricted-drop-down"
+        />
+        <div
+          data-testid="restricted-list"
+        />
+      </div>
+    </div>
+    DraftController
+  </div>
+</DocumentFragment>
+`;
