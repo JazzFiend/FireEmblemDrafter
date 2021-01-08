@@ -10,18 +10,6 @@ import gameInfo from '../../../reference/gameInfo';
 
 afterEach(cleanup);
 
-// FIXME: Snapshots are getting to be more trouble then they are worth. Figure out best practices.
-test('renders and matches snapshot', () => {
-  const { asFragment } = render(
-    <FireEmblemDrafter
-      teamSize={2}
-      isRandom={false}
-      gameInfo={gameInfo}
-    />,
-  );
-  expect(asFragment()).toMatchSnapshot();
-});
-
 // TODO: This file is starting to mix unit tests and integration tests. Should probably seperate into two test types.
 test('draft should start when button is clicked', () => {
   const { getByTestId, getAllByTestId } = render(
