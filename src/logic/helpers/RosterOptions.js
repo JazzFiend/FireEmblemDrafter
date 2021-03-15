@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class RosterOptions {
   constructor(roster, restricted, required) {
     RosterOptions._validateInputs(roster, restricted, required);
-    this.roster = RosterOptions._setupRoster(roster, restricted,);
+    this.roster = RosterOptions._setupRoster(roster, restricted);
     this.required = RosterOptions._parseRequired(roster, required);
     this.rosterCount = this.roster.length - this.required.length;
   }

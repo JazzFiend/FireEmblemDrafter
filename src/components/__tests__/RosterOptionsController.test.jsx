@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import userEvent from '@testing-library/user-event';
 
 import RosterOptionsController from '../RosterOptionsController';
 
@@ -68,7 +66,7 @@ test('should render when a set of characters is loaded', () => {
   );
 
   const restrictedDropdown = getByTestId('restricted-drop-down');
-  expect(restrictedDropdown).toHaveTextContent('Add Restricted...');
+  expect(restrictedDropdown).toHaveTextContent('Restricted Units...');
 });
 
 test('should hide dropdown and show restricted units when draft has started', () => {
@@ -116,7 +114,7 @@ test('should hide dropdown and show required units when draft has started', () =
 test('should run restrictedUnitSelector function when clicked', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
   const testClickHandler = jest.fn();
-  const { getByTestId, getAllByTestId } = render(
+  const { container } = render(
     <RosterOptionsController
       restrictedCharacters={[]}
       requiredCharacters={[]}
@@ -127,21 +125,15 @@ test('should run restrictedUnitSelector function when clicked', () => {
     />,
   );
 
-  const restrictedDropdownInner = getAllByTestId('dropdown')[1];
-
-  fireEvent.click(restrictedDropdownInner);
-  const dropdownItems = getAllByTestId('dropdown-item');
-  fireEvent.click(dropdownItems[0]);
-
-  const restrictedDropdown = getByTestId('restricted-drop-down');
-  expect(restrictedDropdown).toHaveTextContent('Add Restricted...');
+  userEvent.click(container.querySelector('.restricted-selector__control'));
+  userEvent.click(container.querySelectorAll('.restricted-selector__option')[0]);
   expect(testClickHandler).toHaveBeenCalledWith('u');
 });
 
 test('should run requiredUnitSelector function when clicked', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
   const testClickHandler = jest.fn();
-  const { getByTestId, getAllByTestId } = render(
+  const { container } = render(
     <RosterOptionsController
       restrictedCharacters={[]}
       requiredCharacters={[]}
@@ -152,13 +144,7 @@ test('should run requiredUnitSelector function when clicked', () => {
     />,
   );
 
-  const requiredDropdownInner = getAllByTestId('dropdown')[0];
-
-  fireEvent.click(requiredDropdownInner);
-  const dropdownItems = getAllByTestId('dropdown-item');
-  fireEvent.click(dropdownItems[0]);
-
-  const requiredDropdown = getByTestId('required-drop-down');
-  expect(requiredDropdown).toHaveTextContent('Add Required...');
+  userEvent.click(container.querySelector('.required-selector__control'));
+  userEvent.click(container.querySelectorAll('.required-selector__option')[0]);
   expect(testClickHandler).toHaveBeenCalledWith('u');
 });

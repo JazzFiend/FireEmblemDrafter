@@ -21,10 +21,10 @@ export class FireEmblemDrafter extends Component {
     };
   }
 
-  handleGameSelector(gameId) {
+  handleGameSelector(game) {
     const { gameInfo } = this.state;
     this.setState({
-      roster: gameInfo.find((element) => element.id === gameId).playableCharacters,
+      roster: gameInfo.find((element) => element.id === game.value).playableCharacters,
     });
   }
 
