@@ -35,6 +35,21 @@ class DraftController extends Component {
     };
   }
 
+  handlePickClick(buttonIndex) {
+    const { pick, draft } = this.state;
+    let newPick;
+
+    draft.select(pick[buttonIndex]);
+    if (!draft.isDraftFinished()) {
+      newPick = draft.generateNextPick();
+    }
+
+    this.setState({
+      pick: newPick,
+      team: draft.getCurrentTeam(),
+    });
+  }
+
   showPick() {
     const { draftInProgress, handleDraftProgress } = this.props;
     const { pick, draft } = this.state;
@@ -54,21 +69,6 @@ class DraftController extends Component {
         }
       </div>
     );
-  }
-
-  handlePickClick(buttonIndex) {
-    const { pick, draft } = this.state;
-    let newPick;
-
-    draft.select(pick[buttonIndex]);
-    if (!draft.isDraftFinished()) {
-      newPick = draft.generateNextPick();
-    }
-
-    this.setState({
-      pick: newPick,
-      team: draft.getCurrentTeam(),
-    });
   }
 
   startDraft() {

@@ -1,33 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-
-import Dropdown from './Dropdown/Dropdown';
+import Select from 'react-select';
+import dropdownStyle from '../reference/dropdownStyle';
 
 class RosterOptionsController extends PureComponent {
   static displayList(list, label) {
-    if (!list.length) {
-      return '';
-    }
-    let listDisplayFriendly = label;
+    if (!list.length) return '';
 
-    _.forEach(list, (value) => {
-      listDisplayFriendly = `${listDisplayFriendly + value}\n`;
-    });
-    return listDisplayFriendly;
+    return label + list.reduce(
+      (accumulatedString, next) => `${accumulatedString}\n${next}`,
+    );
   }
 
   static _keyList(list) {
-    const keyedList = [];
-    _.forEach(list, (element, index) => {
-      keyedList.push(
-        {
-          id: index,
-          title: element,
-        },
-      );
-    });
-    return keyedList;
+    return list.map((element, index) => ({
+      value: index,
+      label: element,
+    }));
   }
 
   static filterRoster(allCharacters, restrictedCharacters, requiredCharacters) {
@@ -47,12 +36,15 @@ class RosterOptionsController extends PureComponent {
         {
       (!draftInProgress && allCharacters.length > 0)
       && (
-      <Dropdown
-        defaultText="Add Required..."
-        dropdownItems={currentRosterKeyed}
-        onClick={(characterId) => handleRequiredUnitSelector(currentRosterKeyed.find(
-          (element) => element.id === characterId,
-        ).title)}
+      <Select
+        className="required-selector"
+        classNamePrefix="required-selector"
+        options={currentRosterKeyed}
+        onChange={(characterId) => handleRequiredUnitSelector(currentRosterKeyed.find(
+          (element) => element.value === characterId.value,
+        ).label)}
+        placeholder="Required Units..."
+        styles={dropdownStyle}
       />
       )
     }
@@ -67,12 +59,15 @@ class RosterOptionsController extends PureComponent {
         {
       (!draftInProgress && allCharacters.length > 0)
       && (
-      <Dropdown
-        defaultText="Add Restricted..."
-        dropdownItems={currentRosterKeyed}
-        onClick={(characterId) => handleRestrictedUnitSelector(currentRosterKeyed.find(
-          (element) => element.id === characterId,
-        ).title)}
+      <Select
+        className="restricted-selector"
+        classNamePrefix="restricted-selector"
+        options={currentRosterKeyed}
+        onChange={(characterId) => handleRestrictedUnitSelector(currentRosterKeyed.find(
+          (element) => element.value === characterId.value,
+        ).label)}
+        placeholder="Restricted Units..."
+        styles={dropdownStyle}
       />
       )
     }

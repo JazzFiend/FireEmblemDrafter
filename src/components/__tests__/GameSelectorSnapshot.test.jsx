@@ -7,8 +7,6 @@ import '@testing-library/jest-dom/extend-expect';
 import GameSelector from '../GameSelector';
 import gameInfo from '../../reference/gameInfo';
 
-jest.mock('../Dropdown/Dropdown', () => () => 'Dropdown');
-
 afterEach(cleanup);
 
 test('renders game selection dropdown when draft is in progress', () => {

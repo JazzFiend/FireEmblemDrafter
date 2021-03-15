@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-import Dropdown from './Dropdown/Dropdown';
+import Select from 'react-select';
+import dropdownStyle from '../reference/dropdownStyle';
 
 class GameSelector extends PureComponent {
   extractGameTitles() {
     const { gameInfo } = this.props;
 
     return gameInfo.map((item) => ({
-      id: item.id,
-      title: item.title,
+      value: item.id,
+      label: item.title,
     }));
   }
 
@@ -21,11 +21,13 @@ class GameSelector extends PureComponent {
       <div>
         {
           !draftInProgress && (
-            <Dropdown
-              defaultText="Select a Game"
-              dropdownItems={gameTitleList}
-              onClick={(gameId) => handleGameSelector(gameId)}
-              restoreDefaultOnClick={false}
+            <Select
+              className="game-selector"
+              classNamePrefix="game-selector"
+              options={gameTitleList}
+              onChange={handleGameSelector}
+              placeholder="Game Select..."
+              styles={dropdownStyle}
             />
           )
         }
