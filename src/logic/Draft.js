@@ -11,7 +11,7 @@ export default class Draft {
   }
 
   static _validateInputs(rosterOptions, teamSize, randomizer) {
-    if (teamSize > rosterOptions.rosterCount) {
+    if (teamSize > rosterOptions.roster.length) {
       throw new RangeError('Team size larger than roster count.');
     }
     if (teamSize === 0) {

@@ -37,3 +37,24 @@ exports[`renders default Draft Controller when draft is in progress 1`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`starts draft when Start Draft button is pressed 1`] = `
+<DocumentFragment>
+  <div>
+    <button
+      class="start-draft-button"
+      data-testid="start-draft-button"
+      type="button"
+    >
+      Start Draft!
+    </button>
+    <div />
+    <div
+      data-testid="team-list"
+    >
+      2
+
+    </div>
+  </div>
+</DocumentFragment>
+`;
