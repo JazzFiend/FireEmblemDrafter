@@ -13,6 +13,7 @@ class GameSelector extends PureComponent {
     }));
   }
 
+  // FIXME: When a draft completes, the selected game is blank.
   render() {
     const { draftInProgress, handleGameSelector } = this.props;
     const gameTitleList = this.extractGameTitles();

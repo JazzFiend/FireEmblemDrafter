@@ -7,9 +7,9 @@ class RosterOptionsController extends PureComponent {
   static displayList(list, label) {
     if (!list.length) return '';
 
-    return label + list.reduce(
+    return `${label}: ${list.reduce(
       (accumulatedString, next) => `${accumulatedString}\n${next}`,
-    );
+    )}`;
   }
 
   static _keyList(list) {
@@ -19,81 +19,101 @@ class RosterOptionsController extends PureComponent {
     }));
   }
 
-  static filterRoster(allCharacters, restrictedCharacters, requiredCharacters) {
-    return allCharacters.filter(
-      (character) => (!restrictedCharacters.includes(character)),
-    ).filter(
-      (character) => (!requiredCharacters.includes(character)),
-    );
+  static addDisables(disabledList, fullList) {
+    const fullListKeyed = RosterOptionsController._keyList(fullList);
+    const keyedWithDisabled = fullListKeyed.map((keyedElement) => {
+      if (disabledList.includes(keyedElement.label)) {
+        const disabledItem = {
+          label: keyedElement.label,
+          value: keyedElement.value,
+          isDisabled: true,
+        };
+        return disabledItem;
+      }
+      return keyedElement;
+    });
+    return keyedWithDisabled;
   }
 
-  // TODO: These two functions are nearly identical, but its not a typical refactor. I think I need to create a
-  // UnitDropdown class or something. Going to save this for its own task.
-  showRequiredDropdown(currentRosterKeyed) {
-    const { draftInProgress, allCharacters, handleRequiredUnitSelector } = this.props;
+  showDropdown(dropdownOptions) {
+    const { draftInProgress, allCharacters } = this.props;
     return (
-      <div data-testid="required-drop-down">
+      <div data-testid={`${dropdownOptions.testId}-drop-down`}>
         {
-      (!draftInProgress && allCharacters.length > 0)
-      && (
-      <Select
-        className="required-selector"
-        classNamePrefix="required-selector"
-        options={currentRosterKeyed}
-        onChange={(characterId) => handleRequiredUnitSelector(currentRosterKeyed.find(
-          (element) => element.value === characterId.value,
-        ).label)}
-        placeholder="Required Units..."
-        styles={dropdownStyle}
-      />
-      )
-    }
+          (!draftInProgress && allCharacters.length > 0)
+          && RosterOptionsController.renderMultiDropdown(
+            dropdownOptions,
+          )
+        }
       </div>
     );
   }
 
-  showRestrictedDropdown(currentRosterKeyed) {
-    const { draftInProgress, allCharacters, handleRestrictedUnitSelector } = this.props;
+  static renderMultiDropdown(dropdownOptions) {
     return (
-      <div data-testid="restricted-drop-down">
-        {
-      (!draftInProgress && allCharacters.length > 0)
-      && (
       <Select
-        className="restricted-selector"
-        classNamePrefix="restricted-selector"
-        options={currentRosterKeyed}
-        onChange={(characterId) => handleRestrictedUnitSelector(currentRosterKeyed.find(
-          (element) => element.value === characterId.value,
-        ).label)}
-        placeholder="Restricted Units..."
+        isMulti
+        className={`${dropdownOptions.testId}-selector`}
+        classNamePrefix={`${dropdownOptions.testId}-selector`}
+        options={dropdownOptions.options}
+        onChange={(selectedCharacters) => dropdownOptions.onChangeHandler(selectedCharacters.map(
+          (element) => element.label,
+        ))}
+        placeholder={dropdownOptions.placeholderText}
         styles={dropdownStyle}
       />
-      )
-    }
+    );
+  }
+
+  showUnitList(testId, list, listTitle) {
+    const { draftInProgress } = this.props;
+    return (
+      <div data-testid={`${testId}-list`}>
+        {
+          (draftInProgress)
+          && RosterOptionsController.displayList(list, listTitle)
+        }
       </div>
     );
   }
 
+  // FIXME: After a draft is done restricted and required are still populated, but the drop downs aren't.
   render() {
-    const { restrictedCharacters, requiredCharacters, allCharacters } = this.props;
-    const filteredRoster = RosterOptionsController.filterRoster(
-      allCharacters,
+    const {
       restrictedCharacters,
       requiredCharacters,
-    );
-    const currentRosterKeyed = RosterOptionsController._keyList(filteredRoster);
+      allCharacters,
+      handleRequiredUnitSelector,
+      handleRestrictedUnitSelector,
+    } = this.props;
+
+    const requiredWithDisables = RosterOptionsController.addDisables(restrictedCharacters, allCharacters);
+    const restrictedWithDisables = RosterOptionsController.addDisables(requiredCharacters, allCharacters);
+
+    const requiredDropdownOptions = {
+      testId: 'required',
+      options: requiredWithDisables,
+      onChangeHandler: handleRequiredUnitSelector,
+      placeholderText: 'Required Units',
+    };
+
+    const restrictedDropdownOptions = {
+      testId: 'restricted',
+      options: restrictedWithDisables,
+      onChangeHandler: handleRestrictedUnitSelector,
+      placeholderText: 'Restricted Units',
+    };
 
     return (
       <div>
-        {this.showRequiredDropdown(currentRosterKeyed)}
-        <div data-testid="required-list">
-          {RosterOptionsController.displayList(requiredCharacters, 'Required Units: ')}
-        </div>
-        {this.showRestrictedDropdown(currentRosterKeyed)}
-        <div data-testid="restricted-list">
-          {RosterOptionsController.displayList(restrictedCharacters, 'Restricted Units: ')}
-        </div>
+        {this.showDropdown(requiredDropdownOptions)}
+        {this.showUnitList(requiredDropdownOptions.testId, requiredCharacters, requiredDropdownOptions.placeholderText)}
+        {this.showDropdown(restrictedDropdownOptions)}
+        {this.showUnitList(
+          restrictedDropdownOptions.testId,
+          restrictedCharacters,
+          restrictedDropdownOptions.placeholderText,
+        )}
       </div>
     );
   }
