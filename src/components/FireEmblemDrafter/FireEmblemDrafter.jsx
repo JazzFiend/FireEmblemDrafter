@@ -28,20 +28,15 @@ export class FireEmblemDrafter extends Component {
     });
   }
 
-  handleRestrictedUnitSelector(character) {
-    const { restrictedCharacters } = this.state;
-    restrictedCharacters.push(character);
+  handleRequiredUnitSelector(characterList) {
     this.setState({
-      restrictedCharacters,
+      requiredCharacters: characterList,
     });
   }
 
-  // TODO: See the TODO statement in RosterOptionsController.
-  handleRequiredUnitSelector(character) {
-    const { requiredCharacters } = this.state;
-    requiredCharacters.push(character);
+  handleRestrictedUnitSelector(characterList) {
     this.setState({
-      requiredCharacters,
+      restrictedCharacters: characterList,
     });
   }
 

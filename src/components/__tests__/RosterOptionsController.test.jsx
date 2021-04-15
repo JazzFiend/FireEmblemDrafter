@@ -66,7 +66,7 @@ test('should render when a set of characters is loaded', () => {
   );
 
   const restrictedDropdown = getByTestId('restricted-drop-down');
-  expect(restrictedDropdown).toHaveTextContent('Restricted Units...');
+  expect(restrictedDropdown).toHaveTextContent('Restricted Units');
 });
 
 test('should hide dropdown and show restricted units when draft has started', () => {
@@ -127,7 +127,7 @@ test('should run restrictedUnitSelector function when clicked', () => {
 
   userEvent.click(container.querySelector('.restricted-selector__control'));
   userEvent.click(container.querySelectorAll('.restricted-selector__option')[0]);
-  expect(testClickHandler).toHaveBeenCalledWith('u');
+  expect(testClickHandler).toHaveBeenCalledWith(['u']);
 });
 
 test('should run requiredUnitSelector function when clicked', () => {
@@ -146,5 +146,23 @@ test('should run requiredUnitSelector function when clicked', () => {
 
   userEvent.click(container.querySelector('.required-selector__control'));
   userEvent.click(container.querySelectorAll('.required-selector__option')[0]);
-  expect(testClickHandler).toHaveBeenCalledWith('u');
+  expect(testClickHandler).toHaveBeenCalledWith(['u']);
+});
+
+test('options should disappear and become disabled in the required menu', () => {
+  const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
+  const { asFragment, container } = render(
+    <RosterOptionsController
+      restrictedCharacters={['u', 'v']}
+      requiredCharacters={['w']}
+      allCharacters={allCharacters}
+      handleRestrictedUnitSelector={() => {}}
+      handleRequiredUnitSelector={() => {}}
+      draftInProgress={false}
+    />,
+  );
+
+  userEvent.click(container.querySelector('.required-selector__control'));
+
+  expect(asFragment()).toMatchSnapshot();
 });
