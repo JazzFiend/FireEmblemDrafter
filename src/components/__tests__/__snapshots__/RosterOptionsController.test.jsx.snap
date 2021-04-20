@@ -21,19 +21,39 @@ exports[`options should disappear and become disabled in the required menu 1`] =
           <span
             id="aria-context"
           >
-            option u focused disabled, 1 of 6. 6 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.
+            option u focused disabled, 1 of 6. 5 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.
           </span>
         </span>
         <div
           class="required-selector__control required-selector__control--is-focused required-selector__control--menu-is-open css-1p30jne-control"
         >
           <div
-            class="required-selector__value-container required-selector__value-container--is-multi css-g1d714-ValueContainer"
+            class="required-selector__value-container required-selector__value-container--is-multi required-selector__value-container--has-value css-g1d714-ValueContainer"
           >
             <div
-              class="required-selector__placeholder css-1wa3eu0-placeholder"
+              class="css-1rhbuit-multiValue required-selector__multi-value"
             >
-              Required Units
+              <div
+                class="css-12jo7m5 required-selector__multi-value__label"
+              >
+                w
+              </div>
+              <div
+                class="css-xb97g8 required-selector__multi-value__remove"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="14"
+                  viewBox="0 0 20 20"
+                  width="14"
+                >
+                  <path
+                    d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+                  />
+                </svg>
+              </div>
             </div>
             <div
               class="css-b8ldur-Input"
@@ -63,6 +83,23 @@ exports[`options should disappear and become disabled in the required menu 1`] =
           <div
             class="required-selector__indicators css-1hb7zxy-IndicatorsContainer"
           >
+            <div
+              aria-hidden="true"
+              class="required-selector__indicator required-selector__clear-indicator css-1gtu0rj-indicatorContainer"
+            >
+              <svg
+                aria-hidden="true"
+                class="css-tj5bde-Svg"
+                focusable="false"
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <path
+                  d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+                />
+              </svg>
+            </div>
             <span
               class="required-selector__indicator-separator css-1okebmr-indicatorSeparator"
             />
@@ -104,13 +141,6 @@ exports[`options should disappear and become disabled in the required menu 1`] =
               tabindex="-1"
             >
               v
-            </div>
-            <div
-              class="required-selector__option css-ofh72q-option"
-              id="react-select-10-option-2"
-              tabindex="-1"
-            >
-              w
             </div>
             <div
               class="required-selector__option css-ofh72q-option"
@@ -156,12 +186,57 @@ exports[`options should disappear and become disabled in the required menu 1`] =
           class="restricted-selector__control css-1kvltmj-control"
         >
           <div
-            class="restricted-selector__value-container restricted-selector__value-container--is-multi css-g1d714-ValueContainer"
+            class="restricted-selector__value-container restricted-selector__value-container--is-multi restricted-selector__value-container--has-value css-g1d714-ValueContainer"
           >
             <div
-              class="restricted-selector__placeholder css-1wa3eu0-placeholder"
+              class="css-1rhbuit-multiValue restricted-selector__multi-value"
             >
-              Restricted Units
+              <div
+                class="css-12jo7m5 restricted-selector__multi-value__label"
+              >
+                u
+              </div>
+              <div
+                class="css-xb97g8 restricted-selector__multi-value__remove"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="14"
+                  viewBox="0 0 20 20"
+                  width="14"
+                >
+                  <path
+                    d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              class="css-1rhbuit-multiValue restricted-selector__multi-value"
+            >
+              <div
+                class="css-12jo7m5 restricted-selector__multi-value__label"
+              >
+                v
+              </div>
+              <div
+                class="css-xb97g8 restricted-selector__multi-value__remove"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="14"
+                  viewBox="0 0 20 20"
+                  width="14"
+                >
+                  <path
+                    d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+                  />
+                </svg>
+              </div>
             </div>
             <div
               class="css-b8ldur-Input"
@@ -191,6 +266,23 @@ exports[`options should disappear and become disabled in the required menu 1`] =
           <div
             class="restricted-selector__indicators css-1hb7zxy-IndicatorsContainer"
           >
+            <div
+              aria-hidden="true"
+              class="restricted-selector__indicator restricted-selector__clear-indicator css-tlfecz-indicatorContainer"
+            >
+              <svg
+                aria-hidden="true"
+                class="css-tj5bde-Svg"
+                focusable="false"
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <path
+                  d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
+                />
+              </svg>
+            </div>
             <span
               class="restricted-selector__indicator-separator css-1okebmr-indicatorSeparator"
             />

@@ -4,6 +4,13 @@ import Select from 'react-select';
 import dropdownStyle from '../reference/dropdownStyle';
 
 class GameSelector extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedValue: -1,
+    };
+  }
+
   extractGameTitles() {
     const { gameInfo } = this.props;
 
@@ -13,10 +20,15 @@ class GameSelector extends PureComponent {
     }));
   }
 
-  // FIXME: When a draft completes, the selected game is blank.
   render() {
     const { draftInProgress, handleGameSelector } = this.props;
+    const { selectedValue } = this.state;
     const gameTitleList = this.extractGameTitles();
+
+    let defaultValue = null;
+    if (selectedValue >= 0) {
+      defaultValue = gameTitleList[selectedValue];
+    }
 
     return (
       <div>
@@ -25,8 +37,14 @@ class GameSelector extends PureComponent {
             <Select
               className="game-selector"
               classNamePrefix="game-selector"
+              defaultValue={defaultValue}
               options={gameTitleList}
-              onChange={handleGameSelector}
+              onChange={(game) => {
+                this.setState({
+                  selectedValue: game.value,
+                });
+                handleGameSelector(game);
+              }}
               placeholder="Game Select..."
               styles={dropdownStyle}
             />

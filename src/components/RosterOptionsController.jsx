@@ -19,8 +19,7 @@ class RosterOptionsController extends PureComponent {
     }));
   }
 
-  static addDisables(disabledList, fullList) {
-    const fullListKeyed = RosterOptionsController._keyList(fullList);
+  static addDisables(disabledList, fullListKeyed) {
     const keyedWithDisabled = fullListKeyed.map((keyedElement) => {
       if (disabledList.includes(keyedElement.label)) {
         const disabledItem = {
@@ -33,6 +32,14 @@ class RosterOptionsController extends PureComponent {
       return keyedElement;
     });
     return keyedWithDisabled;
+  }
+
+  static populateDefaultValues(defaultStringList, keyedListWithDisables) {
+    return defaultStringList.map(
+      (itemString) => keyedListWithDisables.find(
+        (requiredOption) => itemString === requiredOption.label,
+      ),
+    );
   }
 
   showDropdown(dropdownOptions) {
@@ -55,6 +62,7 @@ class RosterOptionsController extends PureComponent {
         isMulti
         className={`${dropdownOptions.testId}-selector`}
         classNamePrefix={`${dropdownOptions.testId}-selector`}
+        defaultValue={dropdownOptions.defaultValue}
         options={dropdownOptions.options}
         onChange={(selectedCharacters) => dropdownOptions.onChangeHandler(selectedCharacters.map(
           (element) => element.label,
@@ -77,7 +85,6 @@ class RosterOptionsController extends PureComponent {
     );
   }
 
-  // FIXME: After a draft is done restricted and required are still populated, but the drop downs aren't.
   render() {
     const {
       restrictedCharacters,
@@ -87,19 +94,28 @@ class RosterOptionsController extends PureComponent {
       handleRestrictedUnitSelector,
     } = this.props;
 
-    const requiredWithDisables = RosterOptionsController.addDisables(restrictedCharacters, allCharacters);
-    const restrictedWithDisables = RosterOptionsController.addDisables(requiredCharacters, allCharacters);
+    const fullListKeyed = RosterOptionsController._keyList(allCharacters);
+    const requiredOptionsWithDisables = RosterOptionsController.addDisables(restrictedCharacters, fullListKeyed);
+    const restrictedOptionsWithDisables = RosterOptionsController.addDisables(requiredCharacters, fullListKeyed);
+    const requiredDefaults = RosterOptionsController.populateDefaultValues(
+      requiredCharacters, requiredOptionsWithDisables,
+    );
+    const restrictedDefaults = RosterOptionsController.populateDefaultValues(
+      restrictedCharacters, restrictedOptionsWithDisables,
+    );
 
     const requiredDropdownOptions = {
       testId: 'required',
-      options: requiredWithDisables,
+      defaultValue: requiredDefaults,
+      options: requiredOptionsWithDisables,
       onChangeHandler: handleRequiredUnitSelector,
       placeholderText: 'Required Units',
     };
 
     const restrictedDropdownOptions = {
       testId: 'restricted',
-      options: restrictedWithDisables,
+      defaultValue: restrictedDefaults,
+      options: restrictedOptionsWithDisables,
       onChangeHandler: handleRestrictedUnitSelector,
       placeholderText: 'Restricted Units',
     };
