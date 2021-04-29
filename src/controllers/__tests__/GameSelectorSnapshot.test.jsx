@@ -5,7 +5,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
-import GameSelector from '../GameSelector';
+import GameSelectorController from '../GameSelectorController';
 
 afterEach(cleanup);
 
@@ -22,9 +22,9 @@ const gameInfo = [
   },
 ];
 
-test('renders game selection dropdown when draft is in progress', () => {
+test('renders game selection dropdown when draft is not in progress', () => {
   const { asFragment } = render(
-    <GameSelector
+    <GameSelectorController
       draftInProgress={false}
       gameInfo={gameInfo}
       handleGameSelector={jest.fn()}
@@ -33,9 +33,9 @@ test('renders game selection dropdown when draft is in progress', () => {
   expect(asFragment()).toMatchSnapshot();
 });
 
-test('renders nothing when draft is not in progress', () => {
+test('renders nothing when draft is in progress', () => {
   const { asFragment } = render(
-    <GameSelector
+    <GameSelectorController
       draftInProgress={true}
       gameInfo={gameInfo}
       handleGameSelector={jest.fn()}
@@ -48,7 +48,7 @@ test('should populate game title after it has been clicked', () => {
   const dummy = jest.fn();
 
   const { container, asFragment } = render(
-    <GameSelector
+    <GameSelectorController
       draftInProgress={false}
       gameInfo={gameInfo}
       handleGameSelector={dummy}
