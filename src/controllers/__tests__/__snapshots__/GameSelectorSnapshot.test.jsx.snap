@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders game selection dropdown when draft is in progress 1`] = `
+exports[`renders game selection dropdown when draft is not in progress 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -78,7 +78,7 @@ exports[`renders game selection dropdown when draft is in progress 1`] = `
 </DocumentFragment>
 `;
 
-exports[`renders nothing when draft is not in progress 1`] = `
+exports[`renders nothing when draft is in progress 1`] = `
 <DocumentFragment>
   <div />
 </DocumentFragment>

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Pick from './Pick';
-import RandomNumberGenerator from '../logic/RandomNumberGenerator';
-import RandomElementSelector from '../logic/RandomElementSelector';
-import RosterOptions from '../logic/helpers/RosterOptions';
-import Draft from '../logic/Draft';
-import TestRandomNumberGenerator from '../logic/__mocks__/TestRandomNumberGenerator';
+import RandomNumberGenerator from '../model/RandomNumberGenerator';
+import RandomElementSelector from '../model/RandomElementSelector';
+import RosterOptions from '../model/helpers/RosterOptions';
+import Draft from '../model/Draft';
+import TestRandomNumberGenerator from '../model/__mocks__/TestRandomNumberGenerator';
 
 class DraftController extends Component {
   static displayTeam(team) {

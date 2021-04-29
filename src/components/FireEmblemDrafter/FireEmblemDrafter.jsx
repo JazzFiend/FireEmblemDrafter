@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader';
 import PropTypes from 'prop-types';
 
 import './FireEmblemDrafter.css';
-import GameSelector from '../GameSelector';
+import GameSelectorController from '../../controllers/GameSelectorController';
 import DraftController from '../DraftController';
 import RosterOptionsController from '../RosterOptionsController';
 
@@ -75,7 +75,7 @@ export class FireEmblemDrafter extends Component {
 
     return (
       <div>
-        <GameSelector
+        <GameSelectorController
           draftInProgress={draftInProgress}
           gameInfo={gameInfo}
           handleGameSelector={(gameId) => this.handleGameSelector(gameId)}
