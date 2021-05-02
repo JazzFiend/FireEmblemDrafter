@@ -3,11 +3,11 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
-import RosterOptionsController from '../RosterOptionsController';
+import RosterModifiersController from '../RosterModifiersController';
 
-test('should render nothing when draft has not started false and no characters are loaded', () => {
+test('should render nothing when draft has not started and no characters are loaded', () => {
   const { asFragment } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={[]}
@@ -19,9 +19,9 @@ test('should render nothing when draft has not started false and no characters a
   expect(asFragment()).toMatchSnapshot();
 });
 
-test('should render unit dropdowns when draft has not started false and characters are loaded', () => {
+test('should render unit dropdowns when draft has not started and characters are loaded', () => {
   const { asFragment } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={['u', 'v', 'w', 'x', 'y', 'z']}
@@ -37,7 +37,7 @@ test('should render unit dropdowns when draft has not started false and characte
 // Dropdown Component first.
 test('should not render when a set of characters is not loaded', () => {
   const { getByTestId } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={[]}
@@ -55,7 +55,7 @@ test('should render when a set of characters is loaded', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
 
   const { getByTestId } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={allCharacters}
@@ -74,7 +74,7 @@ test('should hide dropdown and show restricted units when draft has started', ()
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
 
   const { getByTestId } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={restrictedCharacters}
       requiredCharacters={[]}
       allCharacters={allCharacters}
@@ -95,7 +95,7 @@ test('should hide dropdown and show required units when draft has started', () =
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
 
   const { getByTestId } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={requiredCharacters}
       allCharacters={allCharacters}
@@ -115,7 +115,7 @@ test('should run restrictedUnitSelector function when clicked', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
   const testClickHandler = jest.fn();
   const { container } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={allCharacters}
@@ -134,7 +134,7 @@ test('should run requiredUnitSelector function when clicked', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
   const testClickHandler = jest.fn();
   const { container } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={[]}
       requiredCharacters={[]}
       allCharacters={allCharacters}
@@ -152,7 +152,7 @@ test('should run requiredUnitSelector function when clicked', () => {
 test('options should disappear and become disabled in the required menu', () => {
   const allCharacters = ['u', 'v', 'w', 'x', 'y', 'z'];
   const { asFragment, container } = render(
-    <RosterOptionsController
+    <RosterModifiersController
       restrictedCharacters={['u', 'v']}
       requiredCharacters={['w']}
       allCharacters={allCharacters}

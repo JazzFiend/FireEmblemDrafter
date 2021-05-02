@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './FireEmblemDrafter.css';
 import GameSelectorController from '../../controllers/GameSelectorController';
 import DraftController from '../DraftController';
-import RosterOptionsController from '../RosterOptionsController';
+import RosterModifiersController from '../../controllers/RosterModifiersController';
 
 export class FireEmblemDrafter extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export class FireEmblemDrafter extends Component {
 
     return (
       <div>
-        <RosterOptionsController
+        <RosterModifiersController
           restrictedCharacters={restrictedCharacters}
           requiredCharacters={requiredCharacters}
           allCharacters={roster}
