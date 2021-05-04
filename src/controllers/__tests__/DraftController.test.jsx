@@ -4,8 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import DraftController from '../DraftController';
 
-jest.mock('../Pick', () => () => 'Pick');
-
+jest.mock('../../view/Pick', () => () => 'Pick');
 afterEach(cleanup);
 
 test('renders default Draft Controller when draft is in progress', () => {

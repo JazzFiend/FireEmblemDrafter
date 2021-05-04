@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import './FireEmblemDrafter.css';
 import GameSelectorController from '../../controllers/GameSelectorController';
-import DraftController from '../DraftController';
+import DraftController from '../../controllers/DraftController';
 import RosterModifiersController from '../../controllers/RosterModifiersController';
 
 export class FireEmblemDrafter extends Component {
