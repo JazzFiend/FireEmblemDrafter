@@ -5,14 +5,14 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { FireEmblemDrafter } from '../FireEmblemDrafter';
-import gameInfo from '../../../reference/gameInfo';
+import { FireEmblemDrafterController } from '../FireEmblemDrafterController';
+import gameInfo from '../../reference/gameInfo';
 
 afterEach(cleanup);
 
 test('renders display in initial state', () => {
   const { asFragment } = render(
-    <FireEmblemDrafter
+    <FireEmblemDrafterController
       teamSize={2}
       isRandom={false}
       gameInfo={gameInfo}
