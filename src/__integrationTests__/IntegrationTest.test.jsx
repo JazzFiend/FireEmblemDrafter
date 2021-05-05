@@ -6,8 +6,8 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { FireEmblemDrafter } from '../FireEmblemDrafter/FireEmblemDrafter';
-import gameInfo from '../../reference/gameInfo';
+import { FireEmblemDrafterController } from '../controllers/FireEmblemDrafterController';
+import gameInfo from '../reference/gameInfo';
 
 afterEach(cleanup);
 
@@ -46,7 +46,7 @@ function expectDraftToBeFinished(getByTestId) {
 
 test('should be able to run a complete draft', () => {
   const { container, getByTestId, getAllByTestId } = render(
-    <FireEmblemDrafter
+    <FireEmblemDrafterController
       teamSize={3}
       isRandom={false}
       gameInfo={gameInfo}
