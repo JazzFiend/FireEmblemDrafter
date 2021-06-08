@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameSelector from '../view/GameSelector';
 
-class GameSelectorController extends PureComponent {
+class GameSelectorController extends Component {
   constructor(props) {
     super(props);
     this.state = {

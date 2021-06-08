@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays error when team size is invalid 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      <form>
+        Team Size:
+        <input
+          data-testid="team-size-textbox"
+          name="teamSize"
+          type="number"
+          value="0"
+        />
+      </form>
+      <div
+        class="error"
+        style="color: red;"
+      >
+        Please enter a valid team size.
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`displays error when team size is too big 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      <form>
+        Team Size:
+        <input
+          data-testid="team-size-textbox"
+          name="teamSize"
+          type="number"
+          value="10"
+        />
+      </form>
+      <div
+        class="error"
+        style="color: red;"
+      >
+        Please enter a valid team size.
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`does not render draft options when draft is in progress 1`] = `
+<DocumentFragment>
+  <div />
+</DocumentFragment>
+`;
+
+exports[`does not render draft options when game has not been selected 1`] = `
+<DocumentFragment>
+  <div />
+</DocumentFragment>
+`;
+
+exports[`renders draft options when game is selected and draft is not in progress 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      <form>
+        Team Size:
+        <input
+          data-testid="team-size-textbox"
+          name="teamSize"
+          type="number"
+          value="30"
+        />
+      </form>
+      <div
+        class="error"
+        style="color: red;"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
