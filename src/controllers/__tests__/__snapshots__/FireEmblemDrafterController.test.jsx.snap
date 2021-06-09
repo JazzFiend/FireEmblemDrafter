@@ -96,6 +96,7 @@ exports[`renders display in initial state 1`] = `
         </div>
       </div>
     </div>
+    <div />
     <div>
       <button
         class="start-draft-button"

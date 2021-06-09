@@ -9,8 +9,8 @@ export class FireEmblemDrafterController extends Component {
     super(props);
     this.state = {
       draftInProgress: false,
-      roster: undefined,
-      teamSize: props.teamSize,
+      roster: [],
+      teamSize: 0,
       randomizePicks: props.isRandom,
       gameInfo: props.gameInfo,
       restrictedCharacters: Array(0),
@@ -22,6 +22,7 @@ export class FireEmblemDrafterController extends Component {
     const { gameInfo } = this.state;
     this.setState({
       roster: gameInfo.find((element) => element.id === game.value).playableCharacters,
+      teamSize: gameInfo.find((element) => element.id === game.value).defaultTeamSize,
     });
   }
 
@@ -37,6 +38,12 @@ export class FireEmblemDrafterController extends Component {
     });
   }
 
+  handleTeamSizeChange(teamSize) {
+    this.setState({
+      teamSize,
+    });
+  }
+
   updateDraftProgress(draftState) {
     this.setState({
       draftInProgress: draftState,
@@ -45,22 +52,31 @@ export class FireEmblemDrafterController extends Component {
 
   render() {
     const {
-      draftInProgress, gameInfo, roster, restrictedCharacters, requiredCharacters, teamSize, randomizePicks,
+      draftInProgress,
+      gameInfo,
+      roster,
+      restrictedCharacters,
+      requiredCharacters,
+      teamSize,
+      randomizePicks,
     } = this.state;
 
     return (
       <FireEmblemDrafter
         draftInProgress={draftInProgress}
-        gameInfo={gameInfo}
-        roster={roster}
-        restrictedCharacters={restrictedCharacters}
-        requiredCharacters={requiredCharacters}
-        teamSize={teamSize}
+        gameSelected={roster.length > 0}
         randomizePicks={randomizePicks}
-        handleGameSelector={(game) => this.handleGameSelector(game)}
+        teamSize={teamSize}
+        maxTeamSize={roster.length}
+        roster={roster}
+        requiredCharacters={requiredCharacters}
+        restrictedCharacters={restrictedCharacters}
+        gameInfo={gameInfo}
         handleDraftProgress={(draftState) => this.updateDraftProgress(draftState)}
+        handleGameSelector={(game) => this.handleGameSelector(game)}
         handleRequiredUnitSelector={(characterList) => this.handleRequiredUnitSelector(characterList)}
         handleRestrictedUnitSelector={(characterList) => this.handleRestrictedUnitSelector(characterList)}
+        handleTeamSizeChange={(newTeamSize) => this.handleTeamSizeChange(newTeamSize)}
       />
     );
   }
@@ -68,12 +84,12 @@ export class FireEmblemDrafterController extends Component {
 export default hot(module)(FireEmblemDrafterController);
 
 FireEmblemDrafterController.propTypes = {
-  teamSize: PropTypes.number.isRequired,
   isRandom: PropTypes.bool,
   gameInfo: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     playableCharacters: PropTypes.arrayOf(PropTypes.string),
+    defaultTeamSize: PropTypes.number,
   })).isRequired,
 };
 

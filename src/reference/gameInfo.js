@@ -7,6 +7,7 @@ const gameInfo = [
       'Artur', 'Lute', 'Natasha', 'Joshua', 'Forde', 'Kyle', 'Tana', 'Amelia', 'Innes', 'Gerik', 'Tethys', 'Marisa',
       'Ewan', 'Duessel', 'Cormag', 'L\'Arachel', 'Dozla', 'Saleh', 'Rennac', 'Knoll', 'Myrrh', 'Syrene',
     ],
+    defaultTeamSize: 18,
   },
   {
     id: 1,
@@ -17,6 +18,7 @@ const gameInfo = [
       'Dart', 'Fiora', 'Legault', 'Ninian', 'Isadora', 'Heath', 'Hawkeye', 'Geitz', 'Pent', 'Louise', 'Karel',
       'Harken', 'Nino', 'Jaffar', 'Vaida', 'Renault', 'Farina', 'Karla',
     ],
+    defaultTeamSize: 15,
   },
   {
     id: 2,
@@ -28,6 +30,7 @@ const gameInfo = [
       'Raigh', 'Cath', 'Melady', 'Perceval', 'Cecilia', 'Sophia', 'Igrene', 'Garret', 'Fae', 'Hugh', 'Zeiss',
       'Douglas', 'Niime', 'Juno', 'Dayan', 'Yoder', 'Karel',
     ],
+    defaultTeamSize: 18,
   },
 ];
 

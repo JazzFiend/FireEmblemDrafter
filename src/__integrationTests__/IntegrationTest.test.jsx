@@ -44,10 +44,14 @@ function expectDraftToBeFinished(getByTestId) {
   expect(getByTestId('start-draft-button')).toHaveTextContent('Start Draft!');
 }
 
+function setTeamSizeToThree(getByTestId) {
+  userEvent.clear(getByTestId('team-size-textbox'));
+  userEvent.type(getByTestId('team-size-textbox'), '3');
+}
+
 test('should be able to run a complete draft', () => {
   const { container, getByTestId, getAllByTestId } = render(
     <FireEmblemDrafterController
-      teamSize={3}
       isRandom={false}
       gameInfo={gameInfo}
     />,
@@ -55,6 +59,7 @@ test('should be able to run a complete draft', () => {
   selectFirstGame(container, getByTestId);
   selectFirstRequired(container);
   selectSecondRestricted(container);
+  setTeamSizeToThree(getByTestId);
   startDraft(getByTestId);
   clickFirstPick(getAllByTestId);
   clickFirstPick(getAllByTestId);
