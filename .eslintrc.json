@@ -8,7 +8,9 @@
         "airbnb",
         "eslint:recommended",
         "plugin:jest/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:react-redux/recommended",
+        "plugin:react-hooks/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -23,7 +25,8 @@
     },
     "plugins": [
         "react",
-        "jest"
+        "jest",
+        "react-redux"
     ],
     "rules": {
         "max-len": ["error", {"code": 120}],

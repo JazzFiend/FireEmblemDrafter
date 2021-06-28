@@ -1,10 +1,21 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import dropdownStyle from '../reference/dropdownStyle';
 
-class RosterModifiers extends PureComponent {
-  static displayList(list, label) {
+export default function RosterModifiers(props) {
+  const {
+    showRosterOptions,
+    showRosterOptionsLists,
+    testId,
+    placeholderText,
+    defaultValue,
+    selected,
+    optionsWithDisables,
+    onChangeHandler,
+  } = props;
+
+  function displayList(list, label) {
     if (!list.length) return '';
 
     return `${label}: ${list.reduce(
@@ -12,21 +23,7 @@ class RosterModifiers extends PureComponent {
     )}`;
   }
 
-  showDropdown(dropdownOptions) {
-    const { showRosterOptions } = this.props;
-    return (
-      <div data-testid={`${dropdownOptions.testId}-drop-down`}>
-        {
-          showRosterOptions
-          && RosterModifiers.renderMultiDropdown(
-            dropdownOptions,
-          )
-        }
-      </div>
-    );
-  }
-
-  static renderMultiDropdown(dropdownOptions) {
+  function renderMultiDropdown(dropdownOptions) {
     return (
       <Select
         isMulti
@@ -43,43 +40,41 @@ class RosterModifiers extends PureComponent {
     );
   }
 
-  showUnitList(testId, list, listTitle) {
-    const { showRosterOptionsLists } = this.props;
+  function showDropdown(dropdownOptions) {
     return (
-      <div data-testid={`${testId}-list`}>
+      <div data-testid={`${dropdownOptions.testId}-drop-down`}>
         {
-          (showRosterOptionsLists)
-          && RosterModifiers.displayList(list, listTitle)
+          showRosterOptions && renderMultiDropdown(dropdownOptions)
         }
       </div>
     );
   }
 
-  render() {
-    const {
-      testId,
-      placeholderText,
-      defaultValue,
-      selected,
-      optionsWithDisables,
-      onChangeHandler,
-    } = this.props;
-
-    const dropdownOptions = {
-      testId,
-      defaultValue,
-      options: optionsWithDisables,
-      onChangeHandler,
-      placeholderText,
-    };
-
+  function showUnitList(list, listTitle) {
     return (
-      <div>
-        {this.showDropdown(dropdownOptions)}
-        {this.showUnitList(dropdownOptions.testId, selected, dropdownOptions.placeholderText)}
+      <div data-testid={`${testId}-list`}>
+        {
+          (showRosterOptionsLists)
+          && displayList(list, listTitle)
+        }
       </div>
     );
   }
+
+  const dropdownOptions = {
+    testId,
+    defaultValue,
+    options: optionsWithDisables,
+    onChangeHandler,
+    placeholderText,
+  };
+
+  return (
+    <div>
+      {showDropdown(dropdownOptions)}
+      {showUnitList(selected, dropdownOptions.placeholderText)}
+    </div>
+  );
 }
 
 RosterModifiers.propTypes = {
@@ -105,5 +100,3 @@ RosterModifiers.defaultProps = {
   placeholderText: '',
   onChangeHandler: () => {},
 };
-
-export default RosterModifiers;

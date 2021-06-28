@@ -1,90 +1,53 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { hot } from 'react-hot-loader';
 import PropTypes from 'prop-types';
-
 import FireEmblemDrafter from '../view/FireEmblemDrafter';
 
-export class FireEmblemDrafterController extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      draftInProgress: false,
-      roster: [],
-      teamSize: 0,
-      randomizePicks: props.isRandom,
-      gameInfo: props.gameInfo,
-      restrictedCharacters: Array(0),
-      requiredCharacters: Array(0),
-    };
+function FireEmblemDrafterController(props) {
+  const { gameInfo, randomizePicks } = props;
+  const [roster, setRoster] = useState([]);
+  const [teamSize, setTeamSize] = useState(0);
+  const [restrictedCharacters, setRestrictedCharacters] = useState(Array(0));
+  const [requiredCharacters, setRequiredCharacters] = useState(Array(0));
+
+  function handleGameSelector(game) {
+    setRoster(gameInfo.find((element) => element.id === game.value).playableCharacters);
+    setTeamSize(gameInfo.find((element) => element.id === game.value).defaultTeamSize);
   }
 
-  handleGameSelector(game) {
-    const { gameInfo } = this.state;
-    this.setState({
-      roster: gameInfo.find((element) => element.id === game.value).playableCharacters,
-      teamSize: gameInfo.find((element) => element.id === game.value).defaultTeamSize,
-    });
+  function handleRequiredUnitSelector(characterList) {
+    setRequiredCharacters(characterList);
   }
 
-  handleRequiredUnitSelector(characterList) {
-    this.setState({
-      requiredCharacters: characterList,
-    });
+  function handleRestrictedUnitSelector(characterList) {
+    setRestrictedCharacters(characterList);
   }
 
-  handleRestrictedUnitSelector(characterList) {
-    this.setState({
-      restrictedCharacters: characterList,
-    });
+  function handleTeamSizeChange(size) {
+    setTeamSize(size);
   }
 
-  handleTeamSizeChange(teamSize) {
-    this.setState({
-      teamSize,
-    });
-  }
-
-  updateDraftProgress(draftState) {
-    this.setState({
-      draftInProgress: draftState,
-    });
-  }
-
-  render() {
-    const {
-      draftInProgress,
-      gameInfo,
-      roster,
-      restrictedCharacters,
-      requiredCharacters,
-      teamSize,
-      randomizePicks,
-    } = this.state;
-
-    return (
-      <FireEmblemDrafter
-        draftInProgress={draftInProgress}
-        gameSelected={roster.length > 0}
-        randomizePicks={randomizePicks}
-        teamSize={teamSize}
-        maxTeamSize={roster.length}
-        roster={roster}
-        requiredCharacters={requiredCharacters}
-        restrictedCharacters={restrictedCharacters}
-        gameInfo={gameInfo}
-        handleDraftProgress={(draftState) => this.updateDraftProgress(draftState)}
-        handleGameSelector={(game) => this.handleGameSelector(game)}
-        handleRequiredUnitSelector={(characterList) => this.handleRequiredUnitSelector(characterList)}
-        handleRestrictedUnitSelector={(characterList) => this.handleRestrictedUnitSelector(characterList)}
-        handleTeamSizeChange={(newTeamSize) => this.handleTeamSizeChange(newTeamSize)}
-      />
-    );
-  }
+  return (
+    <FireEmblemDrafter
+      gameSelected={roster.length > 0}
+      randomizePicks={randomizePicks}
+      teamSize={teamSize}
+      maxTeamSize={roster.length}
+      roster={roster}
+      requiredCharacters={requiredCharacters}
+      restrictedCharacters={restrictedCharacters}
+      gameInfo={gameInfo}
+      handleGameSelector={(game) => handleGameSelector(game)}
+      handleRequiredUnitSelector={(characterList) => handleRequiredUnitSelector(characterList)}
+      handleRestrictedUnitSelector={(characterList) => handleRestrictedUnitSelector(characterList)}
+      handleTeamSizeChange={(newTeamSize) => handleTeamSizeChange(newTeamSize)}
+    />
+  );
 }
 export default hot(module)(FireEmblemDrafterController);
 
 FireEmblemDrafterController.propTypes = {
-  isRandom: PropTypes.bool,
+  randomizePicks: PropTypes.bool,
   gameInfo: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -94,5 +57,5 @@ FireEmblemDrafterController.propTypes = {
 };
 
 FireEmblemDrafterController.defaultProps = {
-  isRandom: false,
+  randomizePicks: false,
 };

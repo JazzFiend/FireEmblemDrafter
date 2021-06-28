@@ -1,17 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import GameSelector from '../view/GameSelector';
+import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
 
-class GameSelectorController extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedValue: -1,
-    };
+export default function GameSelectorController(props) {
+  const { gameInfo, handleGameSelector } = props;
+  const [selectedValue, setSelectedValue] = useState(-1);
+  const draftInProgress = useSelector(selectDraftInProgress);
+
+  function showGameSelector() {
+    return !draftInProgress;
   }
 
-  determineDefaultValue(gameTitleList) {
-    const { selectedValue } = this.state;
+  function extractGameTitles() {
+    return gameInfo.map((item) => ({
+      value: item.id,
+      label: item.title,
+    }));
+  }
+
+  function determineDefaultValue(gameTitleList) {
     let defaultValue = null;
     if (selectedValue >= 0) {
       defaultValue = gameTitleList[selectedValue];
@@ -19,45 +28,25 @@ class GameSelectorController extends Component {
     return defaultValue;
   }
 
-  extractGameTitles() {
-    const { gameInfo } = this.props;
-    return gameInfo.map((item) => ({
-      value: item.id,
-      label: item.title,
-    }));
-  }
-
-  recordStateOnChange(game) {
-    const { handleGameSelector } = this.props;
-    this.setState({
-      selectedValue: game.value,
-    });
+  function recordStateOnChange(game) {
+    setSelectedValue(game.value);
     handleGameSelector(game);
   }
 
-  showGameSelector() {
-    const { draftInProgress } = this.props;
-    return !draftInProgress;
-  }
+  const gameTitleList = extractGameTitles();
+  const defaultValue = determineDefaultValue(gameTitleList);
 
-  render() {
-    const gameTitleList = this.extractGameTitles();
-    const defaultValue = this.determineDefaultValue(gameTitleList);
-
-    return (
-      <GameSelector
-        showGameSelector={this.showGameSelector()}
-        defaultValue={defaultValue}
-        handleGameSelector={(game) => this.recordStateOnChange(game)}
-        gameTitleList={gameTitleList}
-      />
-    );
-  }
+  return (
+    <GameSelector
+      showGameSelector={showGameSelector()}
+      defaultValue={defaultValue}
+      handleGameSelector={(game) => recordStateOnChange(game)}
+      gameTitleList={gameTitleList}
+    />
+  );
 }
-export default GameSelectorController;
 
 GameSelectorController.propTypes = {
-  draftInProgress: PropTypes.bool.isRequired,
   gameInfo: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,

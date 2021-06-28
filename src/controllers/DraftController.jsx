@@ -1,15 +1,28 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { useDispatch } from 'react-redux';
 import RandomNumberGenerator from '../model/RandomNumberGenerator';
 import RandomElementSelector from '../model/RandomElementSelector';
 import RosterOptions from '../model/helpers/RosterOptions';
 import Draft from '../model/Draft';
 import TestRandomNumberGenerator from '../model/__mocks__/TestRandomNumberGenerator';
 import DraftView from '../view/DraftView';
+import { startDraft, endDraft } from '../features/draft/DraftInProgressSlice';
 
-class DraftController extends Component {
-  static createRandomizer(randomizePicks) {
+export default function DraftController(props) {
+  const {
+    roster,
+    restrictedCharacters,
+    requiredCharacters,
+    teamSize,
+    randomizePicks,
+  } = props;
+
+  const [pick, setPick] = useState(Array(6));
+  const [draft, setDraft] = useState(undefined);
+  const dispatch = useDispatch();
+
+  function createRandomizer() {
     if (randomizePicks) {
       return new RandomElementSelector(RandomNumberGenerator);
     }
@@ -17,88 +30,55 @@ class DraftController extends Component {
     return new RandomElementSelector(TestRandomNumberGenerator);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      pick: Array(6),
-      draft: undefined,
-    };
-  }
-
-  selectPick(buttonIndex) {
-    const { pick, draft } = this.state;
+  function selectPick(buttonIndex) {
     let newPick;
-
     draft.select(pick[buttonIndex]);
     if (!draft.isDraftFinished()) {
       newPick = draft.generateNextPick();
     }
-
-    this.setState({
-      pick: newPick,
-    });
+    setPick(newPick);
   }
 
-  extractTeam() {
-    const { draft } = this.state;
+  function extractTeam() {
     if (draft) {
       return draft.getCurrentTeam();
     }
     return [];
   }
 
-  startDraft() {
-    const {
-      roster,
-      restrictedCharacters,
-      requiredCharacters,
-      teamSize,
-      randomizePicks,
-    } = this.props;
+  function beginDraft() {
     const rosterOptions = new RosterOptions(roster, restrictedCharacters, requiredCharacters);
-    const randomizer = DraftController.createRandomizer(randomizePicks);
-    const draft = new Draft(rosterOptions, teamSize, randomizer);
-    const pick = draft.generateNextPick();
-
-    this.setState({
-      draft,
-      pick,
-    });
+    const randomizer = createRandomizer(randomizePicks);
+    const newDraft = new Draft(rosterOptions, teamSize, randomizer);
+    const newPick = newDraft.generateNextPick();
+    setDraft(newDraft);
+    setPick(newPick);
   }
 
-  render() {
-    const {
-      draftInProgress,
-      handleDraftProgress,
-    } = this.props;
+  const handleStartDraft = () => {
+    beginDraft();
+    dispatch(startDraft());
+  };
 
-    const { draft, pick } = this.state;
+  const pickHandler = (index) => {
+    selectPick(index);
+    if (draft.isDraftFinished()) {
+      dispatch(endDraft());
+    }
+  };
 
-    const handleStartDraft = () => {
-      this.startDraft();
-      handleDraftProgress(true);
-    };
-
-    const pickHandler = (index) => {
-      this.selectPick(index);
-      handleDraftProgress(!(draft.isDraftFinished()));
-    };
-
-    return (
-      <DraftView
-        draftInProgress={draftInProgress}
-        handleStartDraft={handleStartDraft}
-        handlePickClick={pickHandler}
-        pick={pick}
-        team={this.extractTeam()}
-      />
-    );
-  }
+  return (
+    <DraftView
+      handleStartDraft={handleStartDraft}
+      handlePickClick={pickHandler}
+      pick={pick}
+      team={extractTeam()}
+      draft={draft}
+    />
+  );
 }
 
 DraftController.propTypes = {
-  draftInProgress: PropTypes.bool.isRequired,
-  handleDraftProgress: PropTypes.func,
   roster: PropTypes.arrayOf(PropTypes.string),
   restrictedCharacters: PropTypes.arrayOf(PropTypes.string),
   requiredCharacters: PropTypes.arrayOf(PropTypes.string),
@@ -107,11 +87,8 @@ DraftController.propTypes = {
 };
 
 DraftController.defaultProps = {
-  handleDraftProgress: () => {},
   roster: [],
   restrictedCharacters: [],
   requiredCharacters: [],
   randomizePicks: true,
 };
-
-export default DraftController;

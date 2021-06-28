@@ -1,9 +1,20 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import RosterModifiers from '../view/RosterModifiers';
+import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
 
-class RosterModifiersController extends PureComponent {
-  static addDisables(disabledList, fullListKeyed) {
+export default function RosterModifiersController(props) {
+  const {
+    restrictedCharacters,
+    requiredCharacters,
+    handleRequiredUnitSelector,
+    handleRestrictedUnitSelector,
+    allCharacters,
+  } = props;
+  const draftInProgress = useSelector(selectDraftInProgress);
+
+  function addDisables(disabledList, fullListKeyed) {
     const keyedWithDisabled = fullListKeyed.map((keyedElement) => {
       if (disabledList.includes(keyedElement.label)) {
         const disabledItem = {
@@ -18,14 +29,14 @@ class RosterModifiersController extends PureComponent {
     return keyedWithDisabled;
   }
 
-  static keyList(list) {
+  function keyList(list) {
     return list.map((element, index) => ({
       value: index,
       label: element,
     }));
   }
 
-  static populateDefaultValues(defaultStringList, keyedListWithDisables) {
+  function populateDefaultValues(defaultStringList, keyedListWithDisables) {
     return defaultStringList.map(
       (itemString) => keyedListWithDisables.find(
         (requiredOption) => itemString === requiredOption.label,
@@ -33,59 +44,41 @@ class RosterModifiersController extends PureComponent {
     );
   }
 
-  showRosterOptions() {
-    const { draftInProgress, allCharacters } = this.props;
+  function showRosterOptions() {
     return (!draftInProgress && allCharacters.length > 0);
   }
 
-  render() {
-    const {
-      restrictedCharacters,
-      requiredCharacters,
-      handleRequiredUnitSelector,
-      handleRestrictedUnitSelector,
-      allCharacters,
-      draftInProgress,
-    } = this.props;
+  const fullListKeyed = keyList(allCharacters);
+  const restrictedOptionsWithDisables = addDisables(requiredCharacters, fullListKeyed);
+  const requiredOptionsWithDisables = addDisables(restrictedCharacters, fullListKeyed);
+  const requiredDefaults = populateDefaultValues(requiredCharacters, requiredOptionsWithDisables);
+  const restrictedDefaults = populateDefaultValues(restrictedCharacters, restrictedOptionsWithDisables);
 
-    const fullListKeyed = RosterModifiersController.keyList(allCharacters);
-    const restrictedOptionsWithDisables = RosterModifiersController.addDisables(requiredCharacters, fullListKeyed);
-    const requiredOptionsWithDisables = RosterModifiersController.addDisables(restrictedCharacters, fullListKeyed);
-    const requiredDefaults = RosterModifiersController.populateDefaultValues(
-      requiredCharacters, requiredOptionsWithDisables,
-    );
-    const restrictedDefaults = RosterModifiersController.populateDefaultValues(
-      restrictedCharacters, restrictedOptionsWithDisables,
-    );
+  return (
+    <div>
+      <RosterModifiers
+        testId="required"
+        placeholderText="Required Units"
+        defaultValue={requiredDefaults}
+        selected={requiredCharacters}
+        optionsWithDisables={requiredOptionsWithDisables}
+        onChangeHandler={handleRequiredUnitSelector}
+        showRosterOptions={showRosterOptions(allCharacters)}
+        showRosterOptionsLists={draftInProgress}
+      />
 
-    const showRosterOptions = this.showRosterOptions();
-
-    return (
-      <div>
-        <RosterModifiers
-          testId="required"
-          placeholderText="Required Units"
-          defaultValue={requiredDefaults}
-          selected={requiredCharacters}
-          optionsWithDisables={requiredOptionsWithDisables}
-          onChangeHandler={handleRequiredUnitSelector}
-          showRosterOptions={showRosterOptions}
-          showRosterOptionsLists={draftInProgress}
-        />
-
-        <RosterModifiers
-          testId="restricted"
-          placeholderText="Restricted Units"
-          defaultValue={restrictedDefaults}
-          selected={restrictedCharacters}
-          optionsWithDisables={restrictedOptionsWithDisables}
-          onChangeHandler={handleRestrictedUnitSelector}
-          showRosterOptions={showRosterOptions}
-          showRosterOptionsLists={draftInProgress}
-        />
-      </div>
-    );
-  }
+      <RosterModifiers
+        testId="restricted"
+        placeholderText="Restricted Units"
+        defaultValue={restrictedDefaults}
+        selected={restrictedCharacters}
+        optionsWithDisables={restrictedOptionsWithDisables}
+        onChangeHandler={handleRestrictedUnitSelector}
+        showRosterOptions={showRosterOptions(allCharacters)}
+        showRosterOptionsLists={draftInProgress}
+      />
+    </div>
+  );
 }
 
 RosterModifiersController.propTypes = {
@@ -94,11 +87,8 @@ RosterModifiersController.propTypes = {
   allCharacters: PropTypes.arrayOf(PropTypes.string),
   handleRestrictedUnitSelector: PropTypes.func.isRequired,
   handleRequiredUnitSelector: PropTypes.func.isRequired,
-  draftInProgress: PropTypes.bool.isRequired,
 };
 
 RosterModifiersController.defaultProps = {
   allCharacters: [],
 };
-
-export default RosterModifiersController;

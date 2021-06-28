@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Pick extends PureComponent {
-  buildButtons() {
-    const { pick, onClick } = this.props;
+export default function Pick(props) {
+  function buildButtons() {
+    const { pick, onClick } = props;
     const buttonArray = Array(0);
 
     for (let i = 0; i < pick.length; i++) {
@@ -16,14 +16,12 @@ class Pick extends PureComponent {
     return buttonArray;
   }
 
-  render() {
-    return (
-      <div data-testid="pick">
-        Make a Selection
-        {this.buildButtons()}
-      </div>
-    );
-  }
+  return (
+    <div data-testid="pick">
+      Make a Selection
+      {buildButtons()}
+    </div>
+  );
 }
 
 Pick.propTypes = {
@@ -35,5 +33,3 @@ Pick.defaultProps = {
   pick: [],
   onClick: () => {},
 };
-
-export default Pick;
