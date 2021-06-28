@@ -1,36 +1,37 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
 import GameSelectorController from '../controllers/GameSelectorController';
 import DraftController from '../controllers/DraftController';
 import RosterModifiersController from '../controllers/RosterModifiersController';
 import DraftOptionsController from '../controllers/DraftOptionsController';
 
-class FireEmblemDrafter extends PureComponent {
-  showGameSelectorController() {
-    const {
-      draftInProgress, gameInfo, handleGameSelector,
-    } = this.props;
+export default function FireEmblemDrafter(props) {
+  const {
+    gameInfo,
+    handleGameSelector,
+    roster,
+    restrictedCharacters,
+    requiredCharacters,
+    handleRestrictedUnitSelector,
+    handleRequiredUnitSelector,
+    gameSelected,
+    handleTeamSizeChange,
+    teamSize,
+    maxTeamSize,
+    randomizePicks,
+    handleDraftProgress,
+  } = props;
 
+  function showGameSelectorController() {
     return (
       <GameSelectorController
-        draftInProgress={draftInProgress}
         gameInfo={gameInfo}
         handleGameSelector={handleGameSelector}
       />
     );
   }
 
-  showRosterController() {
-    const {
-      roster,
-      restrictedCharacters,
-      requiredCharacters,
-      draftInProgress,
-      handleRestrictedUnitSelector,
-      handleRequiredUnitSelector,
-    } = this.props;
-
+  function showRosterController() {
     return (
       <div>
         <RosterModifiersController
@@ -39,25 +40,15 @@ class FireEmblemDrafter extends PureComponent {
           allCharacters={roster}
           handleRestrictedUnitSelector={handleRestrictedUnitSelector}
           handleRequiredUnitSelector={handleRequiredUnitSelector}
-          draftInProgress={draftInProgress}
         />
       </div>
     );
   }
 
-  showDraftOptionsController() {
-    const {
-      gameSelected,
-      draftInProgress,
-      handleTeamSizeChange,
-      teamSize,
-      maxTeamSize,
-    } = this.props;
-
+  function showDraftOptionsController() {
     return (
       <DraftOptionsController
         gameSelected={gameSelected}
-        draftInProgress={draftInProgress}
         handleTeamSizeChange={handleTeamSizeChange}
         defaultValue={teamSize}
         maxTeamSize={maxTeamSize}
@@ -65,20 +56,9 @@ class FireEmblemDrafter extends PureComponent {
     );
   }
 
-  showDraftController() {
-    const {
-      draftInProgress,
-      roster,
-      restrictedCharacters,
-      requiredCharacters,
-      teamSize,
-      randomizePicks,
-      handleDraftProgress,
-    } = this.props;
-
+  function showDraftController() {
     return (
       <DraftController
-        draftInProgress={draftInProgress}
         handleDraftProgress={handleDraftProgress}
         roster={roster}
         restrictedCharacters={restrictedCharacters}
@@ -89,21 +69,17 @@ class FireEmblemDrafter extends PureComponent {
     );
   }
 
-  render() {
-    return (
-      <div>
-        {this.showGameSelectorController()}
-        {this.showRosterController()}
-        {this.showDraftOptionsController()}
-        {this.showDraftController()}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {showGameSelectorController()}
+      {showRosterController()}
+      {showDraftOptionsController()}
+      {showDraftController()}
+    </div>
+  );
 }
-export default FireEmblemDrafter;
 
 FireEmblemDrafter.propTypes = {
-  draftInProgress: PropTypes.bool,
   gameSelected: PropTypes.bool.isRequired,
   randomizePicks: PropTypes.bool,
   teamSize: PropTypes.number,
@@ -123,7 +99,6 @@ FireEmblemDrafter.propTypes = {
 };
 
 FireEmblemDrafter.defaultProps = {
-  draftInProgress: false,
   roster: [],
   restrictedCharacters: [],
   requiredCharacters: [],

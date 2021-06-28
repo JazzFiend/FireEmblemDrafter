@@ -5,9 +5,10 @@ import {
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-
-import { FireEmblemDrafterController } from '../controllers/FireEmblemDrafterController';
+import { Provider } from 'react-redux';
+import FireEmblemDrafterController from '../controllers/FireEmblemDrafterController';
 import gameInfo from '../reference/gameInfo';
+import store from '../app/store';
 
 afterEach(cleanup);
 
@@ -51,10 +52,12 @@ function setTeamSizeToThree(getByTestId) {
 
 test('should be able to run a complete draft', () => {
   const { container, getByTestId, getAllByTestId } = render(
-    <FireEmblemDrafterController
-      isRandom={false}
-      gameInfo={gameInfo}
-    />,
+    <Provider store={store}>
+      <FireEmblemDrafterController
+        isRandom={false}
+        gameInfo={gameInfo}
+      />
+    </Provider>,
   );
   selectFirstGame(container, getByTestId);
   selectFirstRequired(container);

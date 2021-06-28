@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FireEmblemDrafterController } from './controllers/FireEmblemDrafterController';
+import { Provider } from 'react-redux';
+import FireEmblemDrafterController from './controllers/FireEmblemDrafterController';
 import gameInfo from './reference/gameInfo';
+import store from './app/store';
 
 ReactDOM.render(
-  <FireEmblemDrafterController
-    isRandom
-    gameInfo={gameInfo}
-  />, document.getElementById('root'),
+  <Provider store={store}>
+    <FireEmblemDrafterController
+      randomizePicks
+      gameInfo={gameInfo}
+    />
+  </Provider>,
+  document.getElementById('root'),
 );

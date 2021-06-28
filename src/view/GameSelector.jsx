@@ -1,37 +1,34 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import dropdownStyle from '../reference/dropdownStyle';
 
-class GameSelector extends PureComponent {
-  render() {
-    const {
-      defaultValue,
-      gameTitleList,
-      handleGameSelector,
-      showGameSelector,
-    } = this.props;
+export default function GameSelector(props) {
+  const {
+    defaultValue,
+    gameTitleList,
+    handleGameSelector,
+    showGameSelector,
+  } = props;
 
-    return (
-      <div>
-        {
-          showGameSelector && (
-            <Select
-              className="game-selector"
-              classNamePrefix="game-selector"
-              defaultValue={defaultValue}
-              options={gameTitleList}
-              onChange={handleGameSelector}
-              placeholder="Game Select..."
-              styles={dropdownStyle}
-            />
-          )
-        }
-      </div>
-    );
-  }
+  return (
+    <div>
+      {
+        showGameSelector && (
+          <Select
+            className="game-selector"
+            classNamePrefix="game-selector"
+            defaultValue={defaultValue}
+            options={gameTitleList}
+            onChange={handleGameSelector}
+            placeholder="Game Select..."
+            styles={dropdownStyle}
+          />
+        )
+      }
+    </div>
+  );
 }
-export default GameSelector;
 
 GameSelector.propTypes = {
   defaultValue: PropTypes.shape({

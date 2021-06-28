@@ -1,53 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
+import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
 import DraftOptions from '../view/DraftOptions';
 
-class DraftOptionsController extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errorMessage: '',
-    };
-  }
+export default function DraftOptionsController(props) {
+  const {
+    handleTeamSizeChange,
+    maxTeamSize,
+    gameSelected,
+    defaultValue,
+  } = props;
+  const [errorMessage, setErrorMessage] = useState('');
+  const draftInProgress = useSelector(selectDraftInProgress);
 
-  handleTeamSizeChange(teamSize) {
-    const { handleTeamSizeChange, maxTeamSize } = this.props;
+  function checkTeamSize(teamSize) {
     if (teamSize <= 0 || teamSize > maxTeamSize) {
-      this.setState({
-        errorMessage: 'Please enter a valid team size.',
-      });
+      setErrorMessage('Please enter a valid team size.');
     } else {
-      this.setState({
-        errorMessage: '',
-      });
+      setErrorMessage('');
     }
     handleTeamSizeChange(teamSize);
   }
 
-  showDraftOptions() {
-    const { gameSelected, draftInProgress } = this.props;
+  function showDraftOptions() {
     return !draftInProgress && gameSelected;
   }
 
-  render() {
-    const { defaultValue } = this.props;
-    const { errorMessage } = this.state;
-    return (
-      <DraftOptions
-        showDraftOptions={this.showDraftOptions()}
-        handleTeamSizeChange={(teamSize) => this.handleTeamSizeChange(teamSize)}
-        defaultValue={defaultValue}
-        errorMessage={errorMessage}
-      />
-    );
-  }
+  return (
+    <DraftOptions
+      showDraftOptions={showDraftOptions(gameSelected, draftInProgress)}
+      handleTeamSizeChange={(teamSize) => checkTeamSize(teamSize)}
+      defaultValue={defaultValue}
+      errorMessage={errorMessage}
+    />
+  );
 }
-export default DraftOptionsController;
 
 DraftOptionsController.propTypes = {
   gameSelected: PropTypes.bool.isRequired,
-  draftInProgress: PropTypes.bool.isRequired,
   defaultValue: PropTypes.number,
   maxTeamSize: PropTypes.number.isRequired,
   handleTeamSizeChange: PropTypes.func,

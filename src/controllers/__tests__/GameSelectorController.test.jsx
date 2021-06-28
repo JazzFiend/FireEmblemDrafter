@@ -5,7 +5,9 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import GameSelectorController from '../GameSelectorController';
+import TestUtil from '../../testHelpers/TestUtil';
 
 afterEach(cleanup);
 
@@ -23,36 +25,43 @@ const gameInfo = [
 ];
 
 test('renders game selection dropdown when draft is not in progress', () => {
+  const store = TestUtil.createDraftInProgressMockStore(false);
   const { asFragment } = render(
-    <GameSelectorController
-      draftInProgress={false}
-      gameInfo={gameInfo}
-      handleGameSelector={jest.fn()}
-    />,
+    <Provider store={store}>
+      <GameSelectorController
+        gameInfo={gameInfo}
+        handleGameSelector={jest.fn()}
+      />
+    </Provider>,
   );
   expect(asFragment()).toMatchSnapshot();
 });
 
 test('renders nothing when draft is in progress', () => {
+  const store = TestUtil.createDraftInProgressMockStore(true);
+
   const { asFragment } = render(
-    <GameSelectorController
-      draftInProgress={true}
-      gameInfo={gameInfo}
-      handleGameSelector={jest.fn()}
-    />,
+    <Provider store={store}>
+      <GameSelectorController
+        gameInfo={gameInfo}
+        handleGameSelector={jest.fn()}
+      />
+    </Provider>,
   );
   expect(asFragment()).toMatchSnapshot();
 });
 
 test('should populate game title after it has been clicked', () => {
   const dummy = jest.fn();
+  const store = TestUtil.createDraftInProgressMockStore(false);
 
   const { container, asFragment } = render(
-    <GameSelectorController
-      draftInProgress={false}
-      gameInfo={gameInfo}
-      handleGameSelector={dummy}
-    />,
+    <Provider store={store}>
+      <GameSelectorController
+        gameInfo={gameInfo}
+        handleGameSelector={dummy}
+      />
+    </Provider>,
   );
 
   userEvent.click(container.querySelector('.game-selector__control'));

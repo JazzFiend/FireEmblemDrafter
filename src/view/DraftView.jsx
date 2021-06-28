@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-
+import { useSelector } from 'react-redux';
 import Pick from './Pick';
+import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
 
-class DraftView extends Component {
-  static displayTeam(team) {
+export default function DraftView(props) {
+  const {
+    handlePickClick,
+    pick,
+    handleStartDraft,
+    team,
+  } = props;
+  const draftInProgress = useSelector(selectDraftInProgress);
+
+  function displayTeam() {
     let teamDisplayFriendly = '';
     _.forEach(team, (value) => {
       teamDisplayFriendly = `${teamDisplayFriendly + value}\n`;
@@ -13,8 +22,7 @@ class DraftView extends Component {
     return teamDisplayFriendly;
   }
 
-  showPick() {
-    const { draftInProgress, handlePickClick, pick } = this.props;
+  function showPick() {
     return (
       <div>
         {
@@ -32,29 +40,29 @@ class DraftView extends Component {
     );
   }
 
-  render() {
-    const { draftInProgress, handleStartDraft, team } = this.props;
-    return (
-      <div>
-        <button
-          type="button"
-          className="start-draft-button"
-          data-testid="start-draft-button"
-          onClick={handleStartDraft}
-        >
-          {draftInProgress ? 'Restart Draft!' : 'Start Draft!'}
-        </button>
-        {this.showPick()}
-        <div data-testid="team-list">
-          {DraftView.displayTeam(team)}
-        </div>
+  return (
+    <div>
+      <button
+        type="button"
+        className="start-draft-button"
+        data-testid="start-draft-button"
+        onClick={
+          () => {
+            handleStartDraft();
+          }
+        }
+      >
+        {draftInProgress ? 'Restart Draft!' : 'Start Draft!'}
+      </button>
+      {showPick()}
+      <div data-testid="team-list">
+        {displayTeam(team)}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 DraftView.propTypes = {
-  draftInProgress: PropTypes.bool,
   handlePickClick: PropTypes.func,
   handleStartDraft: PropTypes.func,
   pick: PropTypes.arrayOf(PropTypes.string),
@@ -62,11 +70,8 @@ DraftView.propTypes = {
 };
 
 DraftView.defaultProps = {
-  draftInProgress: false,
   handlePickClick: () => {},
   handleStartDraft: () => {},
   pick: [],
   team: [],
 };
-
-export default DraftView;
