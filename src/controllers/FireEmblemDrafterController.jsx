@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { hot } from 'react-hot-loader';
 import PropTypes from 'prop-types';
 import FireEmblemDrafter from '../view/FireEmblemDrafter';
 
@@ -44,7 +43,7 @@ function FireEmblemDrafterController(props) {
     />
   );
 }
-export default hot(module)(FireEmblemDrafterController);
+export default FireEmblemDrafterController;
 
 FireEmblemDrafterController.propTypes = {
   randomizePicks: PropTypes.bool,
