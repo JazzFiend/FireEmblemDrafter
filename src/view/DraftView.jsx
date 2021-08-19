@@ -47,9 +47,7 @@ export default function DraftView(props) {
         className="start-draft-button"
         data-testid="start-draft-button"
         onClick={
-          () => {
-            handleStartDraft();
-          }
+          () => { handleStartDraft(); }
         }
       >
         {draftInProgress ? 'Restart Draft!' : 'Start Draft!'}

@@ -5,7 +5,7 @@ export default function DraftOptions(props) {
   const {
     showDraftOptions,
     handleTeamSizeChange,
-    defaultValue,
+    displayedValue,
     errorMessage,
   } = props;
 
@@ -21,7 +21,7 @@ export default function DraftOptions(props) {
                 name="teamSize"
                 data-testid="team-size-textbox"
                 onChange={(teamSize) => handleTeamSizeChange(Number(teamSize.target.value))}
-                value={defaultValue}
+                value={displayedValue}
               />
             </form>
             <div className="error" style={{ color: 'red' }}>
@@ -36,13 +36,13 @@ export default function DraftOptions(props) {
 
 DraftOptions.propTypes = {
   showDraftOptions: PropTypes.bool.isRequired,
-  defaultValue: PropTypes.number,
+  displayedValue: PropTypes.number,
   errorMessage: PropTypes.string,
   handleTeamSizeChange: PropTypes.func,
 };
 
 DraftOptions.defaultProps = {
-  defaultValue: 0,
+  displayedValue: 0,
   errorMessage: '',
   handleTeamSizeChange: () => {},
 };

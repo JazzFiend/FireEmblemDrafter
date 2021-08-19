@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import GameSelector from '../view/GameSelector';
 import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
+import { setTeamSize } from '../features/draft/TeamSizeSlice';
+import { setRoster } from '../features/draft/RosterSlice';
 
 export default function GameSelectorController(props) {
-  const { gameInfo, handleGameSelector } = props;
+  const { gameInfo } = props;
   const [selectedValue, setSelectedValue] = useState(-1);
   const draftInProgress = useSelector(selectDraftInProgress);
+  const dispatch = useDispatch();
 
   function showGameSelector() {
     return !draftInProgress;
@@ -30,7 +33,8 @@ export default function GameSelectorController(props) {
 
   function recordStateOnChange(game) {
     setSelectedValue(game.value);
-    handleGameSelector(game);
+    dispatch(setRoster(gameInfo.find((element) => element.id === game.value).playableCharacters));
+    dispatch(setTeamSize(gameInfo.find((element) => element.id === game.value).defaultTeamSize));
   }
 
   const gameTitleList = extractGameTitles();
@@ -51,9 +55,4 @@ GameSelectorController.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   })).isRequired,
-  handleGameSelector: PropTypes.func,
-};
-
-GameSelectorController.defaultProps = {
-  handleGameSelector: () => {},
 };
