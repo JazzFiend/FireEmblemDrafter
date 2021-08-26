@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
+import { selectTeamSize, setTeamSize } from '../features/draft/TeamSizeSlice';
 import DraftOptions from '../view/DraftOptions';
 
 export default function DraftOptionsController(props) {
   const {
-    handleTeamSizeChange,
     maxTeamSize,
     gameSelected,
-    defaultValue,
   } = props;
   const [errorMessage, setErrorMessage] = useState('');
   const draftInProgress = useSelector(selectDraftInProgress);
+  const teamSize = useSelector(selectTeamSize);
+  const dispatch = useDispatch();
 
-  function checkTeamSize(teamSize) {
-    if (teamSize <= 0 || teamSize > maxTeamSize) {
+  function checkTeamSize(updatedTeamSize) {
+    if (updatedTeamSize <= 0 || updatedTeamSize > maxTeamSize) {
       setErrorMessage('Please enter a valid team size.');
     } else {
       setErrorMessage('');
     }
-    handleTeamSizeChange(teamSize);
+    dispatch(setTeamSize(updatedTeamSize));
   }
 
   function showDraftOptions() {
@@ -30,8 +31,8 @@ export default function DraftOptionsController(props) {
   return (
     <DraftOptions
       showDraftOptions={showDraftOptions(gameSelected, draftInProgress)}
-      handleTeamSizeChange={(teamSize) => checkTeamSize(teamSize)}
-      defaultValue={defaultValue}
+      handleTeamSizeChange={(updatedTeamSize) => checkTeamSize(updatedTeamSize)}
+      displayedValue={teamSize}
       errorMessage={errorMessage}
     />
   );
@@ -39,12 +40,5 @@ export default function DraftOptionsController(props) {
 
 DraftOptionsController.propTypes = {
   gameSelected: PropTypes.bool.isRequired,
-  defaultValue: PropTypes.number,
   maxTeamSize: PropTypes.number.isRequired,
-  handleTeamSizeChange: PropTypes.func,
-};
-
-DraftOptionsController.defaultProps = {
-  defaultValue: 0,
-  handleTeamSizeChange: () => {},
 };

@@ -11,11 +11,11 @@ export default class RosterOptions {
     if (!roster.length) {
       throw new TypeError('Roster is empty.');
     }
-    this._verifiyValidRosterValues(roster, restricted);
-    this._verifiyValidRosterValues(roster, required);
+    this._verifyValidRosterValues(roster, restricted);
+    this._verifyValidRosterValues(roster, required);
   }
 
-  static _verifiyValidRosterValues(roster, listToCheck) {
+  static _verifyValidRosterValues(roster, listToCheck) {
     _.forEach(listToCheck, (element) => {
       if (!roster.includes(element)) {
         throw new TypeError(`Incorrect value seen in restriction list: ${element}`);

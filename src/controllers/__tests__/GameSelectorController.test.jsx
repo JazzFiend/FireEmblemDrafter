@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-} from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import GameSelectorController from '../GameSelectorController';
-import TestUtil from '../../testHelpers/TestUtil';
+import MockStoreBuilder from '../../testHelpers/MockStoreBuilder';
 
 afterEach(cleanup);
 
@@ -25,7 +22,7 @@ const gameInfo = [
 ];
 
 test('renders game selection dropdown when draft is not in progress', () => {
-  const store = TestUtil.createDraftInProgressMockStore(false);
+  const store = new MockStoreBuilder().build();
   const { asFragment } = render(
     <Provider store={store}>
       <GameSelectorController
@@ -38,7 +35,7 @@ test('renders game selection dropdown when draft is not in progress', () => {
 });
 
 test('renders nothing when draft is in progress', () => {
-  const store = TestUtil.createDraftInProgressMockStore(true);
+  const store = new MockStoreBuilder().withDraftStatus(true).build();
 
   const { asFragment } = render(
     <Provider store={store}>
@@ -52,14 +49,12 @@ test('renders nothing when draft is in progress', () => {
 });
 
 test('should populate game title after it has been clicked', () => {
-  const dummy = jest.fn();
-  const store = TestUtil.createDraftInProgressMockStore(false);
+  const store = new MockStoreBuilder().build();
 
   const { container, asFragment } = render(
     <Provider store={store}>
       <GameSelectorController
         gameInfo={gameInfo}
-        handleGameSelector={dummy}
       />
     </Provider>,
   );
@@ -67,6 +62,5 @@ test('should populate game title after it has been clicked', () => {
   userEvent.click(container.querySelector('.game-selector__control'));
   userEvent.click(container.querySelectorAll('.game-selector__option')[0]);
 
-  expect(dummy).toHaveBeenCalled();
   expect(asFragment()).toMatchSnapshot();
 });

@@ -1,18 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import RosterModifiers from '../view/RosterModifiers';
 import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
+import { selectRequiredRestricted, setRequired, setRestricted } from '../features/draft/RequiredRestrictedSlice';
+import { selectRoster } from '../features/draft/RosterSlice';
 
-export default function RosterModifiersController(props) {
-  const {
-    restrictedCharacters,
-    requiredCharacters,
-    handleRequiredUnitSelector,
-    handleRestrictedUnitSelector,
-    allCharacters,
-  } = props;
+export default function RosterModifiersController() {
   const draftInProgress = useSelector(selectDraftInProgress);
+  const requiredRestrictedCharacters = useSelector(selectRequiredRestricted);
+  const allCharacters = useSelector(selectRoster);
+  const dispatch = useDispatch();
 
   function addDisables(disabledList, fullListKeyed) {
     const keyedWithDisabled = fullListKeyed.map((keyedElement) => {
@@ -48,11 +45,25 @@ export default function RosterModifiersController(props) {
     return (!draftInProgress && allCharacters.length > 0);
   }
 
+  const handleUpdateRequiredUnits = (requiredUnits) => {
+    dispatch(setRequired(requiredUnits));
+  };
+
+  const handleUpdateRestrictedUnits = (requiredUnits) => {
+    dispatch(setRestricted(requiredUnits));
+  };
+
   const fullListKeyed = keyList(allCharacters);
-  const restrictedOptionsWithDisables = addDisables(requiredCharacters, fullListKeyed);
-  const requiredOptionsWithDisables = addDisables(restrictedCharacters, fullListKeyed);
-  const requiredDefaults = populateDefaultValues(requiredCharacters, requiredOptionsWithDisables);
-  const restrictedDefaults = populateDefaultValues(restrictedCharacters, restrictedOptionsWithDisables);
+  const restrictedOptionsWithDisables = addDisables(requiredRestrictedCharacters.requiredUnits, fullListKeyed);
+  const requiredOptionsWithDisables = addDisables(requiredRestrictedCharacters.restrictedUnits, fullListKeyed);
+  const requiredDefaults = populateDefaultValues(
+    requiredRestrictedCharacters.requiredUnits,
+    requiredOptionsWithDisables,
+  );
+  const restrictedDefaults = populateDefaultValues(
+    requiredRestrictedCharacters.restrictedUnits,
+    restrictedOptionsWithDisables,
+  );
 
   return (
     <div>
@@ -60,9 +71,9 @@ export default function RosterModifiersController(props) {
         testId="required"
         placeholderText="Required Units"
         defaultValue={requiredDefaults}
-        selected={requiredCharacters}
+        selected={requiredRestrictedCharacters.requiredUnits}
         optionsWithDisables={requiredOptionsWithDisables}
-        onChangeHandler={handleRequiredUnitSelector}
+        onChangeHandler={handleUpdateRequiredUnits}
         showRosterOptions={showRosterOptions(allCharacters)}
         showRosterOptionsLists={draftInProgress}
       />
@@ -71,24 +82,12 @@ export default function RosterModifiersController(props) {
         testId="restricted"
         placeholderText="Restricted Units"
         defaultValue={restrictedDefaults}
-        selected={restrictedCharacters}
+        selected={requiredRestrictedCharacters.restrictedUnits}
         optionsWithDisables={restrictedOptionsWithDisables}
-        onChangeHandler={handleRestrictedUnitSelector}
+        onChangeHandler={handleUpdateRestrictedUnits}
         showRosterOptions={showRosterOptions(allCharacters)}
         showRosterOptionsLists={draftInProgress}
       />
     </div>
   );
 }
-
-RosterModifiersController.propTypes = {
-  restrictedCharacters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  requiredCharacters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  allCharacters: PropTypes.arrayOf(PropTypes.string),
-  handleRestrictedUnitSelector: PropTypes.func.isRequired,
-  handleRequiredUnitSelector: PropTypes.func.isRequired,
-};
-
-RosterModifiersController.defaultProps = {
-  allCharacters: [],
-};
