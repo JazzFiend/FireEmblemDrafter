@@ -41,7 +41,7 @@ export default function RosterModifiersController() {
     );
   }
 
-  function showRosterOptions() {
+  function showDraftOptions() {
     return (!draftInProgress && allCharacters.length > 0);
   }
 
@@ -74,8 +74,8 @@ export default function RosterModifiersController() {
         selected={requiredRestrictedCharacters.requiredUnits}
         optionsWithDisables={requiredOptionsWithDisables}
         onChangeHandler={handleUpdateRequiredUnits}
-        showRosterOptions={showRosterOptions(allCharacters)}
-        showRosterOptionsLists={draftInProgress}
+        showDraftOptions={showDraftOptions(allCharacters)}
+        showDraftOptionsLists={draftInProgress}
       />
 
       <RosterModifiers
@@ -85,8 +85,8 @@ export default function RosterModifiersController() {
         selected={requiredRestrictedCharacters.restrictedUnits}
         optionsWithDisables={restrictedOptionsWithDisables}
         onChangeHandler={handleUpdateRestrictedUnits}
-        showRosterOptions={showRosterOptions(allCharacters)}
-        showRosterOptionsLists={draftInProgress}
+        showDraftOptions={showDraftOptions(allCharacters)}
+        showDraftOptionsLists={draftInProgress}
       />
     </div>
   );
