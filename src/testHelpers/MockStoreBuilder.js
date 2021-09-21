@@ -3,6 +3,7 @@ import configureStore from 'redux-mock-store';
 export default class MockStoreBuilder {
   constructor() {
     this.draftInProgress = false;
+    this.exclusiveCharacters = [];
     this.requiredUnits = [];
     this.restrictedUnits = [];
     this.roster = [];
@@ -39,6 +40,9 @@ export default class MockStoreBuilder {
     return mockStore({
       draftInProgress: {
         value: this.draftInProgress,
+      },
+      exclusiveCharacters: {
+        value: this.exclusiveCharacters,
       },
       requiredRestricted: {
         value: {

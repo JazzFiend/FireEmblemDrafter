@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import RandomNumberGenerator from '../model/RandomNumberGenerator';
 import RandomElementSelector from '../model/RandomElementSelector';
-import RosterOptions from '../model/helpers/RosterOptions';
+import DraftOptions from '../model/helpers/DraftOptions';
 import Draft from '../model/Draft';
 import TestRandomNumberGenerator from '../model/__mocks__/TestRandomNumberGenerator';
 import DraftView from '../view/DraftView';
@@ -11,6 +11,7 @@ import { startDraft, endDraft } from '../features/draft/DraftInProgressSlice';
 import { selectRequiredRestricted } from '../features/draft/RequiredRestrictedSlice';
 import { selectTeamSize } from '../features/draft/TeamSizeSlice';
 import { selectRoster } from '../features/draft/RosterSlice';
+import { selectExclusiveCharacters } from '../features/draft/ExclusiveCharacterSlice';
 
 export default function DraftController(props) {
   const {
@@ -20,6 +21,7 @@ export default function DraftController(props) {
   const [pick, setPick] = useState(Array(6));
   const [draft, setDraft] = useState(undefined);
   const requiredRestrictedCharacters = useSelector(selectRequiredRestricted);
+  const exclusiveCharacters = useSelector(selectExclusiveCharacters);
   const teamSize = useSelector(selectTeamSize);
   const roster = useSelector(selectRoster);
   const dispatch = useDispatch();
@@ -49,13 +51,13 @@ export default function DraftController(props) {
   }
 
   function beginDraft() {
-    const rosterOptions = new RosterOptions(
+    const draftOptions = new DraftOptions(
       roster,
       requiredRestrictedCharacters.restrictedUnits,
       requiredRestrictedCharacters.requiredUnits,
     );
     const randomizer = createRandomizer(randomizePicks);
-    const newDraft = new Draft(rosterOptions, teamSize, randomizer);
+    const newDraft = new Draft(draftOptions, teamSize, randomizer, exclusiveCharacters);
     const newPick = newDraft.generateNextPick();
     setDraft(newDraft);
     setPick(newPick);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import GameSelector from '../view/GameSelector';
 import { selectDraftInProgress } from '../features/draft/DraftInProgressSlice';
+import { setExclusiveCharacters } from '../features/draft/ExclusiveCharacterSlice';
 import { setTeamSize } from '../features/draft/TeamSizeSlice';
 import { setRoster } from '../features/draft/RosterSlice';
 
@@ -32,9 +33,11 @@ export default function GameSelectorController(props) {
   }
 
   function recordStateOnChange(game) {
+    const selectedGameInfo = gameInfo.find((element) => element.id === game.value);
     setSelectedValue(game.value);
-    dispatch(setRoster(gameInfo.find((element) => element.id === game.value).playableCharacters));
-    dispatch(setTeamSize(gameInfo.find((element) => element.id === game.value).defaultTeamSize));
+    dispatch(setRoster(selectedGameInfo.playableCharacters));
+    dispatch(setTeamSize(selectedGameInfo.defaultTeamSize));
+    dispatch(setExclusiveCharacters(selectedGameInfo.exclusiveCharacters));
   }
 
   const gameTitleList = extractGameTitles();

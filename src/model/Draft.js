@@ -1,51 +1,52 @@
-import _ from 'lodash';
+import DraftRoster from './DraftRoster';
 
 export default class Draft {
-  constructor(rosterOptions, teamSize, randomizer) {
-    Draft._validateInputs(rosterOptions, teamSize, randomizer);
-    this.roster = rosterOptions.roster.slice();
+  constructor(draftOptions, teamSize, random, exclusives) {
+    Draft._validateInputs(draftOptions, teamSize, random);
+    this.roster = new DraftRoster(draftOptions, exclusives);
     this.teamSize = teamSize;
-    this.randomizer = randomizer;
-    this.team = rosterOptions.required.slice();
+    this.random = random;
+    this.team = draftOptions.required.slice();
     this.draftComplete = false;
   }
 
-  static _validateInputs(rosterOptions, teamSize, randomizer) {
-    if (teamSize > rosterOptions.roster.length) {
+  static _validateInputs(draftOptions, teamSize, random) {
+    if (teamSize > draftOptions.roster.length) {
       throw new RangeError('Team size larger than roster count.');
     }
     if (teamSize === 0) {
       throw new RangeError('Invalid team size.');
     }
-    if (!randomizer) {
-      throw new TypeError('Must define a randomizer');
+    if (!random) {
+      throw new TypeError('Must define a random number generator');
     }
   }
 
   generateNextPick() {
     const pickSize = this._determinePickSize();
-    return this.randomizer.pullRandomElements(this.roster.slice(0), pickSize);
+    return this.random.pullRandomElements(this.roster.getRoster(), pickSize);
   }
 
   _determinePickSize() {
     const pickSize = Math.floor(Math.log2(this.teamSize - this.team.length)) + 2;
-    if (pickSize > this.roster.length) {
-      return this.roster.length;
+    if (pickSize > this.roster.getRosterLength()) {
+      return this.roster.getRosterLength();
     }
     return pickSize;
   }
 
   select(selection) {
-    if (this.roster.includes(selection)) {
+    if (this.roster.containsItem(selection)) {
       this.team.push(selection);
-      _.remove(this.roster, (element) => element === selection);
-      this._checkDraftComplete();
+      this.roster.removeItemFromRoster(selection);
+      this.roster.removeExclusives(selection);
+      this._checkDraftStatus();
     } else {
       throw new TypeError(`${selection} is not in the roster.`);
     }
   }
 
-  _checkDraftComplete() {
+  _checkDraftStatus() {
     if (this.team.length === this.teamSize) {
       this.draftComplete = true;
     }

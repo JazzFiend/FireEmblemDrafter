@@ -5,8 +5,8 @@ import dropdownStyle from '../reference/dropdownStyle';
 
 export default function RosterModifiers(props) {
   const {
-    showRosterOptions,
-    showRosterOptionsLists,
+    showDraftOptions,
+    showDraftOptionsLists,
     testId,
     placeholderText,
     defaultValue,
@@ -44,7 +44,7 @@ export default function RosterModifiers(props) {
     return (
       <div data-testid={`${dropdownOptions.testId}-drop-down`}>
         {
-          showRosterOptions && renderMultiDropdown(dropdownOptions)
+          showDraftOptions && renderMultiDropdown(dropdownOptions)
         }
       </div>
     );
@@ -54,7 +54,7 @@ export default function RosterModifiers(props) {
     return (
       <div data-testid={`${testId}-list`}>
         {
-          (showRosterOptionsLists)
+          (showDraftOptionsLists)
           && displayList(list, listTitle)
         }
       </div>
@@ -91,8 +91,8 @@ RosterModifiers.propTypes = {
     isDisabled: PropTypes.bool,
   })).isRequired,
   onChangeHandler: PropTypes.func,
-  showRosterOptions: PropTypes.bool.isRequired,
-  showRosterOptionsLists: PropTypes.bool.isRequired,
+  showDraftOptions: PropTypes.bool.isRequired,
+  showDraftOptionsLists: PropTypes.bool.isRequired,
 };
 
 RosterModifiers.defaultProps = {

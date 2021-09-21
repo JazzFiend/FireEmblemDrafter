@@ -7,6 +7,7 @@ const gameInfo = [
       'Artur', 'Lute', 'Natasha', 'Joshua', 'Forde', 'Kyle', 'Tana', 'Amelia', 'Innes', 'Gerik', 'Tethys', 'Marisa',
       'Ewan', 'Duessel', 'Cormag', 'L\'Arachel', 'Dozla', 'Saleh', 'Rennac', 'Knoll', 'Myrrh', 'Syrene',
     ],
+    exclusiveCharacters: [],
     defaultTeamSize: 18,
   },
   {
@@ -17,6 +18,10 @@ const gameInfo = [
       'Eliwood', 'Marcus', 'Lowen', 'Rebecca', 'Bartre', 'Hector', 'Oswin', 'Guy', 'Priscilla', 'Raven', 'Canas',
       'Dart', 'Fiora', 'Legault', 'Ninian', 'Isadora', 'Heath', 'Hawkeye', 'Geitz', 'Pent', 'Louise', 'Karel',
       'Harken', 'Nino', 'Jaffar', 'Vaida', 'Renault', 'Farina', 'Karla',
+    ],
+    exclusiveCharacters: [
+      ['Wallace', 'Geitz'],
+      ['Karel', 'Harken'],
     ],
     defaultTeamSize: 15,
   },
@@ -29,6 +34,11 @@ const gameInfo = [
       'Barthe', 'Ogier', 'Fir', 'Sin', 'Gonzalez', 'Geese', 'Klein', 'Thea', 'Larum', 'Echidna', 'Elffin', 'Bartre',
       'Raigh', 'Cath', 'Melady', 'Perceval', 'Cecilia', 'Sophia', 'Igrene', 'Garret', 'Fae', 'Hugh', 'Zeiss',
       'Douglas', 'Niime', 'Juno', 'Dayan', 'Yoder', 'Karel',
+    ],
+    exclusiveCharacters: [
+      ['Bartre', 'Echidna'],
+      ['Larum', 'Elffin'],
+      ['Juno', 'Dayan'],
     ],
     defaultTeamSize: 18,
   },
