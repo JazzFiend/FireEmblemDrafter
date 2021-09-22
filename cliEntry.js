@@ -1,9 +1,9 @@
 import readlineSync from 'readline-sync';
 import _ from 'lodash';
 
-import Draft from './src/logic/Draft';
-import RandomNumberGenerator from './src/logic/RandomNumberGenerator';
-import RandomElementSelector from './src/logic/RandomElementSelector';
+import Draft from './src/model/Draft';
+import RandomNumberGenerator from './src/model/RandomNumberGenerator';
+import RandomElementSelector from './src/model/RandomElementSelector';
 
 const fs = require('fs');
 const util = require('util');
