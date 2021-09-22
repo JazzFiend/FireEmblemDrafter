@@ -61,7 +61,7 @@
     "style-loader": "^0.23.1",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^4.0.0-rc.0"
+    "webpack-dev-server": "^4.2.1"
   },
   "bin": {
     "draft": "bin/draft"
