@@ -1,16 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import FireEmblemDrafterController from './controllers/FireEmblemDrafterController';
-import gameInfo from './reference/gameInfo';
-import store from './app/store';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Homepage, DraftPage } from './App';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <FireEmblemDrafterController
-      randomizePicks
-      gameInfo={gameInfo}
-    />
-  </Provider>,
+  <Router>
+    <Switch>
+      <Route exact path="/" component={Homepage} />
+      <Route exact path="/draft" component={DraftPage} />
+    </Switch>
+  </Router>,
   document.getElementById('root'),
 );
