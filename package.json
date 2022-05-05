@@ -21,7 +21,7 @@
     "lint:fix": "./node_modules/.bin/eslint ./src --ext ts,tsx,js,jsx --fix"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.0",
+    "@reduxjs/toolkit": "^1.8.1",
     "lodash": "^4.17.19",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
