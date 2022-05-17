@@ -10,7 +10,8 @@
         "plugin:jest/recommended",
         "plugin:react/recommended",
         "plugin:react-redux/recommended",
-        "plugin:react-hooks/recommended"
+        "plugin:react-hooks/recommended",
+        "plugin:ui-testing/puppeteer"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -26,7 +27,8 @@
     "plugins": [
         "react",
         "jest",
-        "react-redux"
+        "react-redux",
+        "ui-testing"
     ],
     "rules": {
         "max-len": ["error", {"code": 120}],
