@@ -1,30 +1,14 @@
-import readlineSync from 'readline-sync';
-import _ from 'lodash';
+const readlineSync = require('readline-sync');
 
-import Draft from './src/model/Draft';
-import RandomNumberGenerator from './src/model/RandomNumberGenerator';
-import RandomElementSelector from './src/model/RandomElementSelector';
-
-const fs = require('fs');
-const util = require('util');
-
-function formatRoster(unfilteredRoster) {
-  const roster = unfilteredRoster.toString().split('\n');
-  _.remove(roster, ((element) => element === ''));
-  return roster;
-}
-
-async function extractInputData(fileName) {
-  const readFilePromisified = util.promisify(fs.readFile);
-  const unformattedRoster = await readFilePromisified(fileName);
-  return formatRoster(unformattedRoster);
-}
+const RandomNumberGenerator = require('./src/model/RandomNumberGenerator').default;
+const RandomElementSelector = require('./src/model/RandomElementSelector').default;
+const gameInfo = require('./src/reference/gameInfo').default;
+const Draft = require('./src/model/Draft').default;
 
 /* eslint-disable no-console */
-function runDraft(roster) {
-  const teamSize = 17;
-  const randomizer = new RandomElementSelector(new RandomNumberGenerator());
-  const draft = new Draft(roster, teamSize, randomizer);
+function runDraft(roster, exclusives, teamSize) {
+  const randomizer = new RandomElementSelector(RandomNumberGenerator);
+  const draft = new Draft(roster, teamSize, randomizer, exclusives);
 
   while (!draft.isDraftFinished()) {
     const pick = draft.generateNextPick();
@@ -36,10 +20,28 @@ function runDraft(roster) {
   return draft.getCurrentTeam();
 }
 
+function getSelectedGameInfo(game) {
+  return gameInfo.find((element) => element.title === game);
+}
+
+function buildDraftOptions(selectedGameInfo) {
+  return {
+    roster: selectedGameInfo.playableCharacters,
+    required: [],
+  };
+}
+
+// Arguments:
+// argv[2] - Name of Game to use
+// argv[3] - Size of Team
+// Adding support for Required and Restricted characters isn't supported via CLI right now.
+// Spelling a character's name wrong (case sensitive!) results in a crash.
 module.exports = async () => {
-  const roster = await extractInputData(process.argv[2]);
-  const team = runDraft(roster);
+  const selectedGameInfo = getSelectedGameInfo(process.argv[2]);
+  const draftOptions = buildDraftOptions(selectedGameInfo);
+  const team = runDraft(draftOptions, selectedGameInfo.exclusiveCharacters, parseInt(process.argv[3], 10));
   console.log(team);
   console.log('Final Team:', team);
 };
+
 /* eslint-enable no-console */
